@@ -25,7 +25,7 @@ type SerializableDictionaryOfStringAndAPIVariable struct {
 // UnmarshalJSON unmarshals this object from a JSON structure
 func (m *SerializableDictionaryOfStringAndAPIVariable) UnmarshalJSON(raw []byte) error {
 	// AO0
-	var aO0 map[string]APIVariable
+	var aO0 map[string]*APIVariable
 	if err := swag.ReadJSON(raw, &aO0); err != nil {
 		return err
 	}
