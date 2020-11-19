@@ -9,12 +9,11 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new register API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -26,12 +25,19 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
-/*
-RegisterPost creates a new API account
+// ClientService is the interface for Client methods
+type ClientService interface {
+	RegisterPost(params *RegisterPostParams, authInfo runtime.ClientAuthInfoWriter) (*RegisterPostCreated, error)
 
-This method requires that you specify the username and password of an Uptrends operator login as authentication. When registration is successful, please save the UserName and Password fields from the response: these are your new API credentials.
+	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+  RegisterPost creates a new API account
+
+  This method requires that you specify the username and password of an Uptrends operator login as authentication. When registration is successful, please save the UserName and Password fields from the response; these are your new API credentials.
 */
-func (a *Client) RegisterPost(params *RegisterPostParams, authInfo runtime.ClientAuthInfoWriter) (*RegisterPostOK, error) {
+func (a *Client) RegisterPost(params *RegisterPostParams, authInfo runtime.ClientAuthInfoWriter) (*RegisterPostCreated, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewRegisterPostParams()
@@ -53,7 +59,7 @@ func (a *Client) RegisterPost(params *RegisterPostParams, authInfo runtime.Clien
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*RegisterPostOK)
+	success, ok := result.(*RegisterPostCreated)
 	if ok {
 		return success, nil
 	}

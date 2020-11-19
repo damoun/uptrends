@@ -13,8 +13,7 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // NewMonitorGetMonitorParams creates a new MonitorGetMonitorParams object
@@ -61,6 +60,11 @@ for the monitor get monitor operation typically these are written to a http.Requ
 */
 type MonitorGetMonitorParams struct {
 
+	/*Filter
+	  Provide the option to only retrieve the requested fields. E.g. "Name,IsActive".
+
+	*/
+	Filter *string
 	/*MonitorGUID
 	  The Guid of the requested monitor.
 
@@ -105,6 +109,17 @@ func (o *MonitorGetMonitorParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
+// WithFilter adds the filter to the monitor get monitor params
+func (o *MonitorGetMonitorParams) WithFilter(filter *string) *MonitorGetMonitorParams {
+	o.SetFilter(filter)
+	return o
+}
+
+// SetFilter adds the filter to the monitor get monitor params
+func (o *MonitorGetMonitorParams) SetFilter(filter *string) {
+	o.Filter = filter
+}
+
 // WithMonitorGUID adds the monitorGUID to the monitor get monitor params
 func (o *MonitorGetMonitorParams) WithMonitorGUID(monitorGUID string) *MonitorGetMonitorParams {
 	o.SetMonitorGUID(monitorGUID)
@@ -123,6 +138,22 @@ func (o *MonitorGetMonitorParams) WriteToRequest(r runtime.ClientRequest, reg st
 		return err
 	}
 	var res []error
+
+	if o.Filter != nil {
+
+		// query param filter
+		var qrFilter string
+		if o.Filter != nil {
+			qrFilter = *o.Filter
+		}
+		qFilter := qrFilter
+		if qFilter != "" {
+			if err := r.SetQueryParam("filter", qFilter); err != nil {
+				return err
+			}
+		}
+
+	}
 
 	// path param monitorGuid
 	if err := r.SetPathParam("monitorGuid", o.MonitorGUID); err != nil {

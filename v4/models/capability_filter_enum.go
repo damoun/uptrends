@@ -8,13 +8,13 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // CapabilityFilterEnum capability filter enum
+//
 // swagger:model CapabilityFilterEnum
 type CapabilityFilterEnum string
 
@@ -28,6 +28,9 @@ const (
 
 	// CapabilityFilterEnumPrimaryServer captures enum value "PrimaryServer"
 	CapabilityFilterEnumPrimaryServer CapabilityFilterEnum = "PrimaryServer"
+
+	// CapabilityFilterEnumHighAvailability captures enum value "HighAvailability"
+	CapabilityFilterEnumHighAvailability CapabilityFilterEnum = "HighAvailability"
 )
 
 // for schema
@@ -35,7 +38,7 @@ var capabilityFilterEnumEnum []interface{}
 
 func init() {
 	var res []CapabilityFilterEnum
-	if err := json.Unmarshal([]byte(`["IPv6","NativeIPv6","PrimaryServer"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["IPv6","NativeIPv6","PrimaryServer","HighAvailability"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -44,7 +47,7 @@ func init() {
 }
 
 func (m CapabilityFilterEnum) validateCapabilityFilterEnumEnum(path, location string, value CapabilityFilterEnum) error {
-	if err := validate.Enum(path, location, value, capabilityFilterEnumEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, capabilityFilterEnumEnum, true); err != nil {
 		return err
 	}
 	return nil

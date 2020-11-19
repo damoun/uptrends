@@ -6,44 +6,48 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // OperatorDutySchedule operator duty schedule
+//
 // swagger:model OperatorDutySchedule
 type OperatorDutySchedule struct {
 
-	// end date time
+	// The end date/time for this maintenance period (for one-time maintenance periods only)
 	// Format: date-time
 	EndDateTime strfmt.DateTime `json:"EndDateTime,omitempty"`
 
-	// end time
+	// The end time of this maintenance period
 	EndTime string `json:"EndTime,omitempty"`
 
-	// Id
+	// The unique ID of this maintenance period
 	// Required: true
 	ID *int32 `json:"Id"`
 
-	// month day
+	// the month day for this maintenance period (for montly maintenance periods only)
 	MonthDay int32 `json:"MonthDay,omitempty"`
 
-	// schedule mode
+	// The schedule mode (one time, daily, weekly, monthly)
 	// Required: true
-	ScheduleMode OperatorScheduleMode `json:"ScheduleMode"`
+	ScheduleMode struct {
+		OperatorScheduleMode
+	} `json:"ScheduleMode"`
 
-	// start date time
+	// The start date/time for this schedule (for one-time schedules only)
 	// Format: date-time
 	StartDateTime strfmt.DateTime `json:"StartDateTime,omitempty"`
 
-	// start time
+	// The start time of this maintenance period
 	StartTime string `json:"StartTime,omitempty"`
 
-	// week day
-	WeekDay DayOfWeek `json:"WeekDay,omitempty"`
+	// The weekday for this maintenance period (for weekly maintenance periods only)
+	WeekDay struct {
+		DayOfWeek
+	} `json:"WeekDay,omitempty"`
 }
 
 // Validate validates this operator duty schedule
@@ -100,13 +104,6 @@ func (m *OperatorDutySchedule) validateID(formats strfmt.Registry) error {
 
 func (m *OperatorDutySchedule) validateScheduleMode(formats strfmt.Registry) error {
 
-	if err := m.ScheduleMode.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("ScheduleMode")
-		}
-		return err
-	}
-
 	return nil
 }
 
@@ -127,13 +124,6 @@ func (m *OperatorDutySchedule) validateWeekDay(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.WeekDay) { // not required
 		return nil
-	}
-
-	if err := m.WeekDay.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("WeekDay")
-		}
-		return err
 	}
 
 	return nil

@@ -13,9 +13,8 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewMonitorCheckGetTransactionDetailsParams creates a new MonitorCheckGetTransactionDetailsParams object
@@ -63,7 +62,7 @@ for the monitor check get transaction details operation typically these are writ
 type MonitorCheckGetTransactionDetailsParams struct {
 
 	/*MonitorCheckID
-	  Monitor check Id to get the detailed data for.
+	  The monitor check Id to get the detailed data for.
 
 	*/
 	MonitorCheckID int64

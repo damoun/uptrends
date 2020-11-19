@@ -6,55 +6,111 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"strconv"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // ListStringResponse list string response
+//
 // swagger:model ListStringResponse
 type ListStringResponse struct {
-	ResponseBaseOfListOfString
-}
 
-// UnmarshalJSON unmarshals this object from a JSON structure
-func (m *ListStringResponse) UnmarshalJSON(raw []byte) error {
-	// AO0
-	var aO0 ResponseBaseOfListOfString
-	if err := swag.ReadJSON(raw, &aO0); err != nil {
-		return err
-	}
-	m.ResponseBaseOfListOfString = aO0
+	// data
+	Data []string `json:"Data"`
 
-	return nil
-}
+	// links
+	Links *LinksData `json:"Links,omitempty"`
 
-// MarshalJSON marshals this object to a JSON structure
-func (m ListStringResponse) MarshalJSON() ([]byte, error) {
-	_parts := make([][]byte, 0, 1)
+	// meta
+	Meta *MetaData `json:"Meta,omitempty"`
 
-	aO0, err := swag.WriteJSON(m.ResponseBaseOfListOfString)
-	if err != nil {
-		return nil, err
-	}
-	_parts = append(_parts, aO0)
-
-	return swag.ConcatJSON(_parts...), nil
+	// relationships
+	Relationships []*RelationObject `json:"Relationships"`
 }
 
 // Validate validates this list string response
 func (m *ListStringResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	// validation for a type composition with ResponseBaseOfListOfString
-	if err := m.ResponseBaseOfListOfString.Validate(formats); err != nil {
+	if err := m.validateLinks(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMeta(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRelationships(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *ListStringResponse) validateLinks(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Links) { // not required
+		return nil
+	}
+
+	if m.Links != nil {
+		if err := m.Links.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("Links")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *ListStringResponse) validateMeta(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Meta) { // not required
+		return nil
+	}
+
+	if m.Meta != nil {
+		if err := m.Meta.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("Meta")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *ListStringResponse) validateRelationships(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Relationships) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Relationships); i++ {
+		if swag.IsZero(m.Relationships[i]) { // not required
+			continue
+		}
+
+		if m.Relationships[i] != nil {
+			if err := m.Relationships[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("Relationships" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

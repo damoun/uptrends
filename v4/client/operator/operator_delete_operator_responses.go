@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // OperatorDeleteOperatorReader is a Reader for the OperatorDeleteOperator structure.
@@ -50,7 +49,7 @@ func (o *OperatorDeleteOperatorReader) ReadResponse(response runtime.ClientRespo
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -61,7 +60,7 @@ func NewOperatorDeleteOperatorNoContent() *OperatorDeleteOperatorNoContent {
 
 /*OperatorDeleteOperatorNoContent handles this case with default header values.
 
-Request completed successfully
+The request completed successfully. No content is returned.
 */
 type OperatorDeleteOperatorNoContent struct {
 }
@@ -85,20 +84,20 @@ func NewOperatorDeleteOperatorBadRequest() *OperatorDeleteOperatorBadRequest {
 The request failed.
 */
 type OperatorDeleteOperatorBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorDeleteOperatorBadRequest) Error() string {
 	return fmt.Sprintf("[DELETE /Operator/{operatorGuid}][%d] operatorDeleteOperatorBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *OperatorDeleteOperatorBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *OperatorDeleteOperatorBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorDeleteOperatorBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -118,20 +117,20 @@ func NewOperatorDeleteOperatorForbidden() *OperatorDeleteOperatorForbidden {
 Deleting the current operator is not allowed.
 */
 type OperatorDeleteOperatorForbidden struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorDeleteOperatorForbidden) Error() string {
 	return fmt.Sprintf("[DELETE /Operator/{operatorGuid}][%d] operatorDeleteOperatorForbidden  %+v", 403, o.Payload)
 }
 
-func (o *OperatorDeleteOperatorForbidden) GetPayload() *models.APIMessageInfo {
+func (o *OperatorDeleteOperatorForbidden) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorDeleteOperatorForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -151,20 +150,20 @@ func NewOperatorDeleteOperatorNotFound() *OperatorDeleteOperatorNotFound {
 The specified operator was not found.
 */
 type OperatorDeleteOperatorNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorDeleteOperatorNotFound) Error() string {
 	return fmt.Sprintf("[DELETE /Operator/{operatorGuid}][%d] operatorDeleteOperatorNotFound  %+v", 404, o.Payload)
 }
 
-func (o *OperatorDeleteOperatorNotFound) GetPayload() *models.APIMessageInfo {
+func (o *OperatorDeleteOperatorNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorDeleteOperatorNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

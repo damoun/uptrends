@@ -6,14 +6,14 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // MetaData meta data
+//
 // swagger:model MetaData
 type MetaData struct {
 
@@ -21,9 +21,8 @@ type MetaData struct {
 	Period *PeriodMetaData `json:"Period,omitempty"`
 
 	// timestamp
-	// Required: true
 	// Format: date-time
-	Timestamp *strfmt.DateTime `json:"Timestamp"`
+	Timestamp strfmt.DateTime `json:"Timestamp,omitempty"`
 }
 
 // Validate validates this meta data
@@ -64,8 +63,8 @@ func (m *MetaData) validatePeriod(formats strfmt.Registry) error {
 
 func (m *MetaData) validateTimestamp(formats strfmt.Registry) error {
 
-	if err := validate.Required("Timestamp", "body", m.Timestamp); err != nil {
-		return err
+	if swag.IsZero(m.Timestamp) { // not required
+		return nil
 	}
 
 	if err := validate.FormatOf("Timestamp", "body", "date-time", m.Timestamp.String(), formats); err != nil {

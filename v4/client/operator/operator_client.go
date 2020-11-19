@@ -9,12 +9,11 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operator API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -26,8 +25,41 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientService is the interface for Client methods
+type ClientService interface {
+	OperatorAddDutyPeriodForOperator(params *OperatorAddDutyPeriodForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorAddDutyPeriodForOperatorCreated, error)
+
+	OperatorCreateOperator(params *OperatorCreateOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorCreateOperatorCreated, error)
+
+	OperatorDeleteAuthorizationForOperator(params *OperatorDeleteAuthorizationForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorDeleteAuthorizationForOperatorNoContent, error)
+
+	OperatorDeleteDutyScheduleFromOperator(params *OperatorDeleteDutyScheduleFromOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorDeleteDutyScheduleFromOperatorNoContent, error)
+
+	OperatorDeleteOperator(params *OperatorDeleteOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorDeleteOperatorNoContent, error)
+
+	OperatorGetAllOperators(params *OperatorGetAllOperatorsParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetAllOperatorsOK, error)
+
+	OperatorGetAuthorizationsForOperator(params *OperatorGetAuthorizationsForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetAuthorizationsForOperatorOK, error)
+
+	OperatorGetDutyScheduleForOperator(params *OperatorGetDutyScheduleForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetDutyScheduleForOperatorOK, error)
+
+	OperatorGetOperator(params *OperatorGetOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetOperatorOK, error)
+
+	OperatorGetOperatorGroupsForOperator(params *OperatorGetOperatorGroupsForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetOperatorGroupsForOperatorOK, error)
+
+	OperatorPostAuthorizationForOperator(params *OperatorPostAuthorizationForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorPostAuthorizationForOperatorNoContent, error)
+
+	OperatorUpdateDutyPeriodForOperator(params *OperatorUpdateDutyPeriodForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorUpdateDutyPeriodForOperatorNoContent, error)
+
+	OperatorUpdateOperator(params *OperatorUpdateOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorUpdateOperatorNoContent, error)
+
+	OperatorUpdateOperatorWithPatch(params *OperatorUpdateOperatorWithPatchParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorUpdateOperatorWithPatchNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
+}
+
 /*
-OperatorAddDutyPeriodForOperator adds a duty schedule for an existing operator
+  OperatorAddDutyPeriodForOperator adds a duty schedule to the specified operator
 */
 func (a *Client) OperatorAddDutyPeriodForOperator(params *OperatorAddDutyPeriodForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorAddDutyPeriodForOperatorCreated, error) {
 	// TODO: Validate the params before sending
@@ -62,7 +94,7 @@ func (a *Client) OperatorAddDutyPeriodForOperator(params *OperatorAddDutyPeriodF
 }
 
 /*
-OperatorCreateOperator creates a new operator
+  OperatorCreateOperator creates a new operator
 */
 func (a *Client) OperatorCreateOperator(params *OperatorCreateOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorCreateOperatorCreated, error) {
 	// TODO: Validate the params before sending
@@ -97,7 +129,42 @@ func (a *Client) OperatorCreateOperator(params *OperatorCreateOperatorParams, au
 }
 
 /*
-OperatorDeleteDutyScheduleFromOperator deletes the specified duty period from the specified operator
+  OperatorDeleteAuthorizationForOperator removes the specified authorization of this operator
+*/
+func (a *Client) OperatorDeleteAuthorizationForOperator(params *OperatorDeleteAuthorizationForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorDeleteAuthorizationForOperatorNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewOperatorDeleteAuthorizationForOperatorParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "Operator_DeleteAuthorizationForOperator",
+		Method:             "DELETE",
+		PathPattern:        "/Operator/{operatorGuid}/Authorization/{authorizationType}",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &OperatorDeleteAuthorizationForOperatorReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*OperatorDeleteAuthorizationForOperatorNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for Operator_DeleteAuthorizationForOperator: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  OperatorDeleteDutyScheduleFromOperator deletes the specified duty schedule of the specified operator
 */
 func (a *Client) OperatorDeleteDutyScheduleFromOperator(params *OperatorDeleteDutyScheduleFromOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorDeleteDutyScheduleFromOperatorNoContent, error) {
 	// TODO: Validate the params before sending
@@ -132,7 +199,7 @@ func (a *Client) OperatorDeleteDutyScheduleFromOperator(params *OperatorDeleteDu
 }
 
 /*
-OperatorDeleteOperator deletes an existing operator
+  OperatorDeleteOperator deletes an existing operator
 */
 func (a *Client) OperatorDeleteOperator(params *OperatorDeleteOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorDeleteOperatorNoContent, error) {
 	// TODO: Validate the params before sending
@@ -167,7 +234,7 @@ func (a *Client) OperatorDeleteOperator(params *OperatorDeleteOperatorParams, au
 }
 
 /*
-OperatorGetAllOperators gets a list of all operators
+  OperatorGetAllOperators gets a list of all operators
 */
 func (a *Client) OperatorGetAllOperators(params *OperatorGetAllOperatorsParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetAllOperatorsOK, error) {
 	// TODO: Validate the params before sending
@@ -202,7 +269,42 @@ func (a *Client) OperatorGetAllOperators(params *OperatorGetAllOperatorsParams, 
 }
 
 /*
-OperatorGetDutyScheduleForOperator gets the duty schedule for an existing operator
+  OperatorGetAuthorizationsForOperator gets all authorizations for the specified operator
+*/
+func (a *Client) OperatorGetAuthorizationsForOperator(params *OperatorGetAuthorizationsForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetAuthorizationsForOperatorOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewOperatorGetAuthorizationsForOperatorParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "Operator_GetAuthorizationsForOperator",
+		Method:             "GET",
+		PathPattern:        "/Operator/{operatorGuid}/Authorization",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &OperatorGetAuthorizationsForOperatorReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*OperatorGetAuthorizationsForOperatorOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for Operator_GetAuthorizationsForOperator: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  OperatorGetDutyScheduleForOperator gets the duty schedules for an specified operator
 */
 func (a *Client) OperatorGetDutyScheduleForOperator(params *OperatorGetDutyScheduleForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetDutyScheduleForOperatorOK, error) {
 	// TODO: Validate the params before sending
@@ -237,7 +339,7 @@ func (a *Client) OperatorGetDutyScheduleForOperator(params *OperatorGetDutySched
 }
 
 /*
-OperatorGetOperator gets the details of the operator with the provided operator Guid
+  OperatorGetOperator gets the details of the operator with the provided operator Guid
 */
 func (a *Client) OperatorGetOperator(params *OperatorGetOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetOperatorOK, error) {
 	// TODO: Validate the params before sending
@@ -272,7 +374,7 @@ func (a *Client) OperatorGetOperator(params *OperatorGetOperatorParams, authInfo
 }
 
 /*
-OperatorGetOperatorGroupsForOperator gets a list of all operator groups of which the operator with the provided operator Guid is a member
+  OperatorGetOperatorGroupsForOperator gets a list of all operator groups for the specified operator
 */
 func (a *Client) OperatorGetOperatorGroupsForOperator(params *OperatorGetOperatorGroupsForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGetOperatorGroupsForOperatorOK, error) {
 	// TODO: Validate the params before sending
@@ -307,7 +409,42 @@ func (a *Client) OperatorGetOperatorGroupsForOperator(params *OperatorGetOperato
 }
 
 /*
-OperatorUpdateDutyPeriodForOperator updates the specified duty period from the specified operator
+  OperatorPostAuthorizationForOperator assigns the specified authorization to this operator
+*/
+func (a *Client) OperatorPostAuthorizationForOperator(params *OperatorPostAuthorizationForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorPostAuthorizationForOperatorNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewOperatorPostAuthorizationForOperatorParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "Operator_PostAuthorizationForOperator",
+		Method:             "POST",
+		PathPattern:        "/Operator/{operatorGuid}/Authorization/{authorizationType}",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &OperatorPostAuthorizationForOperatorReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*OperatorPostAuthorizationForOperatorNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for Operator_PostAuthorizationForOperator: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  OperatorUpdateDutyPeriodForOperator updates the specified duty schedule of the specified operator
 */
 func (a *Client) OperatorUpdateDutyPeriodForOperator(params *OperatorUpdateDutyPeriodForOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorUpdateDutyPeriodForOperatorNoContent, error) {
 	// TODO: Validate the params before sending
@@ -342,7 +479,7 @@ func (a *Client) OperatorUpdateDutyPeriodForOperator(params *OperatorUpdateDutyP
 }
 
 /*
-OperatorUpdateOperator updates an existing operator
+  OperatorUpdateOperator updates an existing operator
 */
 func (a *Client) OperatorUpdateOperator(params *OperatorUpdateOperatorParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorUpdateOperatorNoContent, error) {
 	// TODO: Validate the params before sending
@@ -373,6 +510,41 @@ func (a *Client) OperatorUpdateOperator(params *OperatorUpdateOperatorParams, au
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
 	msg := fmt.Sprintf("unexpected success response for Operator_UpdateOperator: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  OperatorUpdateOperatorWithPatch updates an existing operator
+*/
+func (a *Client) OperatorUpdateOperatorWithPatch(params *OperatorUpdateOperatorWithPatchParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorUpdateOperatorWithPatchNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewOperatorUpdateOperatorWithPatchParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "Operator_UpdateOperatorWithPatch",
+		Method:             "PATCH",
+		PathPattern:        "/Operator/{operatorGuid}",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &OperatorUpdateOperatorWithPatchReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*OperatorUpdateOperatorWithPatchNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for Operator_UpdateOperatorWithPatch: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

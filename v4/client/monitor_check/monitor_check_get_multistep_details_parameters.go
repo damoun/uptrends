@@ -13,9 +13,8 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewMonitorCheckGetMultistepDetailsParams creates a new MonitorCheckGetMultistepDetailsParams object
@@ -63,7 +62,7 @@ for the monitor check get multistep details operation typically these are writte
 type MonitorCheckGetMultistepDetailsParams struct {
 
 	/*MonitorCheckID
-	  Monitor check Id to get the detailed data for.
+	  The monitor check Id to get the detailed data for.
 
 	*/
 	MonitorCheckID int64

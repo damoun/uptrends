@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // OperatorCreateOperatorReader is a Reader for the OperatorCreateOperator structure.
@@ -44,7 +43,7 @@ func (o *OperatorCreateOperatorReader) ReadResponse(response runtime.ClientRespo
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewOperatorCreateOperatorCreated() *OperatorCreateOperatorCreated {
 
 /*OperatorCreateOperatorCreated handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully.
 */
 type OperatorCreateOperatorCreated struct {
 	Payload *models.Operator
@@ -91,20 +90,20 @@ func NewOperatorCreateOperatorBadRequest() *OperatorCreateOperatorBadRequest {
 The request failed.
 */
 type OperatorCreateOperatorBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorCreateOperatorBadRequest) Error() string {
 	return fmt.Sprintf("[POST /Operator][%d] operatorCreateOperatorBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *OperatorCreateOperatorBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *OperatorCreateOperatorBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorCreateOperatorBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -124,21 +123,23 @@ func NewOperatorCreateOperatorForbidden() *OperatorCreateOperatorForbidden {
 One or more validation errors occurred.
 */
 type OperatorCreateOperatorForbidden struct {
-	Payload []*models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorCreateOperatorForbidden) Error() string {
 	return fmt.Sprintf("[POST /Operator][%d] operatorCreateOperatorForbidden  %+v", 403, o.Payload)
 }
 
-func (o *OperatorCreateOperatorForbidden) GetPayload() []*models.APIMessageInfo {
+func (o *OperatorCreateOperatorForbidden) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorCreateOperatorForbidden) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
+	o.Payload = new(models.MessageList)
+
 	// response payload
-	if err := consumer.Consume(response.Body(), &o.Payload); err != nil && err != io.EOF {
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
 		return err
 	}
 

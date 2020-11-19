@@ -8,13 +8,13 @@ package models
 import (
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // TransactionStepDefinition transaction step definition
+//
 // swagger:model TransactionStepDefinition
 type TransactionStepDefinition struct {
 

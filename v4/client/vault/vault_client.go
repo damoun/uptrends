@@ -9,12 +9,11 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new vault API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -26,10 +25,41 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
-/*
-VaultCreateAuthorizationForVaultSection creates a new authorization for the specified vault section
+// ClientService is the interface for Client methods
+type ClientService interface {
+	VaultCreateAuthorizationForVaultSection(params *VaultCreateAuthorizationForVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultCreateAuthorizationForVaultSectionCreated, error)
 
-The AuthorizationId attribute should be omitted in the request body. The AuthorizationId of the newly created authorization will be returned in the response. In the ContextID attribute, fill in the VaultSectionGuid that identifies the vault section for which to create the new authorization. Valid values for the AuthorizationType field are "ViewVaultSection" and "ChangeVaultSection". An authorization should be granted to either an individual operator, or an operator group. Therefore, either specify the OperatorGuid attribute or the OperatorGroupGuid attribute.
+	VaultCreateNewVaultItem(params *VaultCreateNewVaultItemParams, authInfo runtime.ClientAuthInfoWriter) (*VaultCreateNewVaultItemCreated, error)
+
+	VaultCreateNewVaultSection(params *VaultCreateNewVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultCreateNewVaultSectionCreated, error)
+
+	VaultDeleteAuthorizationForVaultSection(params *VaultDeleteAuthorizationForVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultDeleteAuthorizationForVaultSectionNoContent, error)
+
+	VaultDeleteVaultItem(params *VaultDeleteVaultItemParams, authInfo runtime.ClientAuthInfoWriter) (*VaultDeleteVaultItemNoContent, error)
+
+	VaultDeleteVaultSection(params *VaultDeleteVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultDeleteVaultSectionNoContent, error)
+
+	VaultGetAllVaultItems(params *VaultGetAllVaultItemsParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetAllVaultItemsOK, error)
+
+	VaultGetAllVaultSections(params *VaultGetAllVaultSectionsParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetAllVaultSectionsOK, error)
+
+	VaultGetAuthorizationsForVaultSection(params *VaultGetAuthorizationsForVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetAuthorizationsForVaultSectionOK, error)
+
+	VaultGetVaultItem(params *VaultGetVaultItemParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetVaultItemOK, error)
+
+	VaultGetVaultSection(params *VaultGetVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetVaultSectionOK, error)
+
+	VaultUpdateVaultItem(params *VaultUpdateVaultItemParams, authInfo runtime.ClientAuthInfoWriter) (*VaultUpdateVaultItemNoContent, error)
+
+	VaultUpdateVaultSection(params *VaultUpdateVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultUpdateVaultSectionNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
+}
+
+/*
+  VaultCreateAuthorizationForVaultSection creates a new authorization for the specified vault section
+
+  The AuthorizationId attribute should be omitted in the request body. The newly created authorization will be returned in the response. An authorization should be granted to either an individual operator, or an operator group. Therefore, either specify the OperatorGuid attribute or the OperatorGroupGuid attribute.
 */
 func (a *Client) VaultCreateAuthorizationForVaultSection(params *VaultCreateAuthorizationForVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultCreateAuthorizationForVaultSectionCreated, error) {
 	// TODO: Validate the params before sending
@@ -64,9 +94,9 @@ func (a *Client) VaultCreateAuthorizationForVaultSection(params *VaultCreateAuth
 }
 
 /*
-VaultCreateNewVaultItem creates a new vault item
+  VaultCreateNewVaultItem creates a new vault item
 
-The VaultItemGuid field should be omitted
+  The VaultItemGuid field should be omitted
 */
 func (a *Client) VaultCreateNewVaultItem(params *VaultCreateNewVaultItemParams, authInfo runtime.ClientAuthInfoWriter) (*VaultCreateNewVaultItemCreated, error) {
 	// TODO: Validate the params before sending
@@ -101,9 +131,9 @@ func (a *Client) VaultCreateNewVaultItem(params *VaultCreateNewVaultItemParams, 
 }
 
 /*
-VaultCreateNewVaultSection creates a new vault section
+  VaultCreateNewVaultSection creates a new vault section
 
-When a new vault section is created, the user that created the section is granted View and Edit authorizations to that section. The VaultSectionGuid attribute should be omitted in the request body. The Guid of the newly created section will be returned in the response.
+  When a new vault section is created, the user that created the section is granted View and Edit authorizations to that section. The VaultSectionGuid attribute should be omitted in the request body. The Guid of the newly created section will be returned in the response.
 */
 func (a *Client) VaultCreateNewVaultSection(params *VaultCreateNewVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultCreateNewVaultSectionCreated, error) {
 	// TODO: Validate the params before sending
@@ -138,7 +168,7 @@ func (a *Client) VaultCreateNewVaultSection(params *VaultCreateNewVaultSectionPa
 }
 
 /*
-VaultDeleteAuthorizationForVaultSection deletes the specified authorization for the specified vault section
+  VaultDeleteAuthorizationForVaultSection deletes the specified authorization for the specified vault section
 */
 func (a *Client) VaultDeleteAuthorizationForVaultSection(params *VaultDeleteAuthorizationForVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultDeleteAuthorizationForVaultSectionNoContent, error) {
 	// TODO: Validate the params before sending
@@ -173,7 +203,7 @@ func (a *Client) VaultDeleteAuthorizationForVaultSection(params *VaultDeleteAuth
 }
 
 /*
-VaultDeleteVaultItem deletes the specified vault item
+  VaultDeleteVaultItem deletes the specified vault item
 */
 func (a *Client) VaultDeleteVaultItem(params *VaultDeleteVaultItemParams, authInfo runtime.ClientAuthInfoWriter) (*VaultDeleteVaultItemNoContent, error) {
 	// TODO: Validate the params before sending
@@ -208,7 +238,7 @@ func (a *Client) VaultDeleteVaultItem(params *VaultDeleteVaultItemParams, authIn
 }
 
 /*
-VaultDeleteVaultSection deletes the specified vault section
+  VaultDeleteVaultSection deletes the specified vault section
 */
 func (a *Client) VaultDeleteVaultSection(params *VaultDeleteVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultDeleteVaultSectionNoContent, error) {
 	// TODO: Validate the params before sending
@@ -243,7 +273,7 @@ func (a *Client) VaultDeleteVaultSection(params *VaultDeleteVaultSectionParams, 
 }
 
 /*
-VaultGetAllVaultItems returns all vault items
+  VaultGetAllVaultItems returns all vault items
 */
 func (a *Client) VaultGetAllVaultItems(params *VaultGetAllVaultItemsParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetAllVaultItemsOK, error) {
 	// TODO: Validate the params before sending
@@ -278,7 +308,7 @@ func (a *Client) VaultGetAllVaultItems(params *VaultGetAllVaultItemsParams, auth
 }
 
 /*
-VaultGetAllVaultSections returns all vault sections
+  VaultGetAllVaultSections returns all vault sections
 */
 func (a *Client) VaultGetAllVaultSections(params *VaultGetAllVaultSectionsParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetAllVaultSectionsOK, error) {
 	// TODO: Validate the params before sending
@@ -313,7 +343,7 @@ func (a *Client) VaultGetAllVaultSections(params *VaultGetAllVaultSectionsParams
 }
 
 /*
-VaultGetAuthorizationsForVaultSection returns all authorizations for the specified vault section
+  VaultGetAuthorizationsForVaultSection returns all authorizations for the specified vault section
 */
 func (a *Client) VaultGetAuthorizationsForVaultSection(params *VaultGetAuthorizationsForVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetAuthorizationsForVaultSectionOK, error) {
 	// TODO: Validate the params before sending
@@ -348,7 +378,7 @@ func (a *Client) VaultGetAuthorizationsForVaultSection(params *VaultGetAuthoriza
 }
 
 /*
-VaultGetVaultItem returns the specified vault item
+  VaultGetVaultItem returns the specified vault item
 */
 func (a *Client) VaultGetVaultItem(params *VaultGetVaultItemParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetVaultItemOK, error) {
 	// TODO: Validate the params before sending
@@ -383,7 +413,7 @@ func (a *Client) VaultGetVaultItem(params *VaultGetVaultItemParams, authInfo run
 }
 
 /*
-VaultGetVaultSection returns the specified vault section
+  VaultGetVaultSection returns the specified vault section
 */
 func (a *Client) VaultGetVaultSection(params *VaultGetVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultGetVaultSectionOK, error) {
 	// TODO: Validate the params before sending
@@ -418,9 +448,9 @@ func (a *Client) VaultGetVaultSection(params *VaultGetVaultSectionParams, authIn
 }
 
 /*
-VaultUpdateVaultItem updates the specified vault item
+  VaultUpdateVaultItem updates the specified vault item
 
-Only complete definitions are accepted. Fields not specified will be NULLed.
+  Only complete definitions are accepted. Fields not specified will be NULLed.
 */
 func (a *Client) VaultUpdateVaultItem(params *VaultUpdateVaultItemParams, authInfo runtime.ClientAuthInfoWriter) (*VaultUpdateVaultItemNoContent, error) {
 	// TODO: Validate the params before sending
@@ -455,7 +485,7 @@ func (a *Client) VaultUpdateVaultItem(params *VaultUpdateVaultItemParams, authIn
 }
 
 /*
-VaultUpdateVaultSection updates the specified vault section
+  VaultUpdateVaultSection updates the specified vault section
 */
 func (a *Client) VaultUpdateVaultSection(params *VaultUpdateVaultSectionParams, authInfo runtime.ClientAuthInfoWriter) (*VaultUpdateVaultSectionNoContent, error) {
 	// TODO: Validate the params before sending

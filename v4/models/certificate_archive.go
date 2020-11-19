@@ -6,34 +6,34 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // CertificateArchive certificate archive
+//
 // swagger:model CertificateArchive
 type CertificateArchive struct {
 
-	// archive data
+	// Used to specify the certificate content as a base64 string. The value will be encrypted when stored, and will not be displayed when a CertificateArchive is retrieved.
 	ArchiveData string `json:"ArchiveData,omitempty"`
 
-	// issuer
+	// The issuer of this certificate
 	Issuer string `json:"Issuer,omitempty"`
 
-	// not after
+	// The certificate expiry date
 	// Required: true
 	// Format: date-time
 	NotAfter *strfmt.DateTime `json:"NotAfter"`
 
-	// not before
+	// The start date of this certificate
 	// Required: true
 	// Format: date-time
 	NotBefore *strfmt.DateTime `json:"NotBefore"`
 
-	// password
+	// Used to specify a new or changed password. The value will be encrypted when stored, and will not be displayed when a CertificateArchive is retrieved.
 	Password string `json:"Password,omitempty"`
 }
 

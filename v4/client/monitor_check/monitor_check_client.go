@@ -9,12 +9,11 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new monitor check API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -26,8 +25,33 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientService is the interface for Client methods
+type ClientService interface {
+	MonitorCheckGetAccountMonitorChecks(params *MonitorCheckGetAccountMonitorChecksParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetAccountMonitorChecksOK, error)
+
+	MonitorCheckGetConcurrentMonitorPartialChecks(params *MonitorCheckGetConcurrentMonitorPartialChecksParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetConcurrentMonitorPartialChecksOK, error)
+
+	MonitorCheckGetHTTPDetails(params *MonitorCheckGetHTTPDetailsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetHTTPDetailsOK, error)
+
+	MonitorCheckGetMonitorCheck(params *MonitorCheckGetMonitorCheckParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetMonitorCheckOK, error)
+
+	MonitorCheckGetMonitorGroupData(params *MonitorCheckGetMonitorGroupDataParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetMonitorGroupDataOK, error)
+
+	MonitorCheckGetMultistepDetails(params *MonitorCheckGetMultistepDetailsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetMultistepDetailsOK, error)
+
+	MonitorCheckGetScreenshots(params *MonitorCheckGetScreenshotsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetScreenshotsOK, error)
+
+	MonitorCheckGetSingleMonitorCheck(params *MonitorCheckGetSingleMonitorCheckParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetSingleMonitorCheckOK, error)
+
+	MonitorCheckGetTransactionDetails(params *MonitorCheckGetTransactionDetailsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetTransactionDetailsOK, error)
+
+	MonitorCheckGetWaterfallInfo(params *MonitorCheckGetWaterfallInfoParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetWaterfallInfoOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
+}
+
 /*
-MonitorCheckGetAccountMonitorChecks returns all monitor check data
+  MonitorCheckGetAccountMonitorChecks returns all monitor check data
 */
 func (a *Client) MonitorCheckGetAccountMonitorChecks(params *MonitorCheckGetAccountMonitorChecksParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetAccountMonitorChecksOK, error) {
 	// TODO: Validate the params before sending
@@ -62,7 +86,42 @@ func (a *Client) MonitorCheckGetAccountMonitorChecks(params *MonitorCheckGetAcco
 }
 
 /*
-MonitorCheckGetHTTPDetails returns HTTP details for a monitor check
+  MonitorCheckGetConcurrentMonitorPartialChecks gets all partial checks for a concurrent monitor check
+*/
+func (a *Client) MonitorCheckGetConcurrentMonitorPartialChecks(params *MonitorCheckGetConcurrentMonitorPartialChecksParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetConcurrentMonitorPartialChecksOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewMonitorCheckGetConcurrentMonitorPartialChecksParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "MonitorCheck_GetConcurrentMonitorPartialChecks",
+		Method:             "GET",
+		PathPattern:        "/MonitorCheck/{monitorCheckId}/Concurrent",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MonitorCheckGetConcurrentMonitorPartialChecksReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*MonitorCheckGetConcurrentMonitorPartialChecksOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for MonitorCheck_GetConcurrentMonitorPartialChecks: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  MonitorCheckGetHTTPDetails returns HTTP details for a monitor check
 */
 func (a *Client) MonitorCheckGetHTTPDetails(params *MonitorCheckGetHTTPDetailsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetHTTPDetailsOK, error) {
 	// TODO: Validate the params before sending
@@ -97,7 +156,7 @@ func (a *Client) MonitorCheckGetHTTPDetails(params *MonitorCheckGetHTTPDetailsPa
 }
 
 /*
-MonitorCheckGetMonitorCheck returns monitor check data for a specific monitor
+  MonitorCheckGetMonitorCheck returns monitor check data for a specific monitor
 */
 func (a *Client) MonitorCheckGetMonitorCheck(params *MonitorCheckGetMonitorCheckParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetMonitorCheckOK, error) {
 	// TODO: Validate the params before sending
@@ -132,7 +191,7 @@ func (a *Client) MonitorCheckGetMonitorCheck(params *MonitorCheckGetMonitorCheck
 }
 
 /*
-MonitorCheckGetMonitorGroupData returns monitor check data for a specific monitor group
+  MonitorCheckGetMonitorGroupData returns monitor check data for a specific monitor group
 */
 func (a *Client) MonitorCheckGetMonitorGroupData(params *MonitorCheckGetMonitorGroupDataParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetMonitorGroupDataOK, error) {
 	// TODO: Validate the params before sending
@@ -167,7 +226,7 @@ func (a *Client) MonitorCheckGetMonitorGroupData(params *MonitorCheckGetMonitorG
 }
 
 /*
-MonitorCheckGetMultistepDetails returns multi step API details for a monitor check
+  MonitorCheckGetMultistepDetails returns multi step API details for a monitor check
 */
 func (a *Client) MonitorCheckGetMultistepDetails(params *MonitorCheckGetMultistepDetailsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetMultistepDetailsOK, error) {
 	// TODO: Validate the params before sending
@@ -202,7 +261,7 @@ func (a *Client) MonitorCheckGetMultistepDetails(params *MonitorCheckGetMultiste
 }
 
 /*
-MonitorCheckGetScreenshots monitor check get screenshots API
+  MonitorCheckGetScreenshots gets a specific screenshot for a specified monitor check
 */
 func (a *Client) MonitorCheckGetScreenshots(params *MonitorCheckGetScreenshotsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetScreenshotsOK, error) {
 	// TODO: Validate the params before sending
@@ -237,7 +296,7 @@ func (a *Client) MonitorCheckGetScreenshots(params *MonitorCheckGetScreenshotsPa
 }
 
 /*
-MonitorCheckGetSingleMonitorCheck returns a single monitor check
+  MonitorCheckGetSingleMonitorCheck returns a single monitor check
 */
 func (a *Client) MonitorCheckGetSingleMonitorCheck(params *MonitorCheckGetSingleMonitorCheckParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetSingleMonitorCheckOK, error) {
 	// TODO: Validate the params before sending
@@ -272,7 +331,7 @@ func (a *Client) MonitorCheckGetSingleMonitorCheck(params *MonitorCheckGetSingle
 }
 
 /*
-MonitorCheckGetTransactionDetails returns transaction step details for a monitor check
+  MonitorCheckGetTransactionDetails returns transaction step details for a monitor check
 */
 func (a *Client) MonitorCheckGetTransactionDetails(params *MonitorCheckGetTransactionDetailsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetTransactionDetailsOK, error) {
 	// TODO: Validate the params before sending
@@ -307,7 +366,7 @@ func (a *Client) MonitorCheckGetTransactionDetails(params *MonitorCheckGetTransa
 }
 
 /*
-MonitorCheckGetWaterfallInfo returns waterfall information for a monitor check
+  MonitorCheckGetWaterfallInfo returns waterfall information for a monitor check
 */
 func (a *Client) MonitorCheckGetWaterfallInfo(params *MonitorCheckGetWaterfallInfoParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCheckGetWaterfallInfoOK, error) {
 	// TODO: Validate the params before sending

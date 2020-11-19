@@ -13,9 +13,8 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewMonitorCheckGetSingleMonitorCheckParams creates a new MonitorCheckGetSingleMonitorCheckParams object
@@ -62,7 +61,10 @@ for the monitor check get single monitor check operation typically these are wri
 */
 type MonitorCheckGetSingleMonitorCheckParams struct {
 
-	/*MonitorCheckID*/
+	/*MonitorCheckID
+	  The Id of the monitor check to get the data for.
+
+	*/
 	MonitorCheckID int64
 
 	timeout    time.Duration

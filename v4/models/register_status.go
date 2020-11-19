@@ -8,13 +8,13 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // RegisterStatus register status
+//
 // swagger:model RegisterStatus
 type RegisterStatus string
 
@@ -41,7 +41,7 @@ func init() {
 }
 
 func (m RegisterStatus) validateRegisterStatusEnum(path, location string, value RegisterStatus) error {
-	if err := validate.Enum(path, location, value, registerStatusEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, registerStatusEnum, true); err != nil {
 		return err
 	}
 	return nil

@@ -13,10 +13,9 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // NewMonitorPatchMonitorParams creates a new MonitorPatchMonitorParams object
@@ -63,11 +62,11 @@ for the monitor patch monitor operation typically these are written to a http.Re
 */
 type MonitorPatchMonitorParams struct {
 
-	/*APIMonitor
+	/*Monitor
 	  The partial definition for the monitor that should be updated.
 
 	*/
-	APIMonitor *models.APIMonitor
+	Monitor *models.Monitor
 	/*MonitorGUID
 	  The Guid of the monitor that should be updated.
 
@@ -112,15 +111,15 @@ func (o *MonitorPatchMonitorParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithAPIMonitor adds the aPIMonitor to the monitor patch monitor params
-func (o *MonitorPatchMonitorParams) WithAPIMonitor(aPIMonitor *models.APIMonitor) *MonitorPatchMonitorParams {
-	o.SetAPIMonitor(aPIMonitor)
+// WithMonitor adds the monitor to the monitor patch monitor params
+func (o *MonitorPatchMonitorParams) WithMonitor(monitor *models.Monitor) *MonitorPatchMonitorParams {
+	o.SetMonitor(monitor)
 	return o
 }
 
-// SetAPIMonitor adds the apiMonitor to the monitor patch monitor params
-func (o *MonitorPatchMonitorParams) SetAPIMonitor(aPIMonitor *models.APIMonitor) {
-	o.APIMonitor = aPIMonitor
+// SetMonitor adds the monitor to the monitor patch monitor params
+func (o *MonitorPatchMonitorParams) SetMonitor(monitor *models.Monitor) {
+	o.Monitor = monitor
 }
 
 // WithMonitorGUID adds the monitorGUID to the monitor patch monitor params
@@ -142,8 +141,8 @@ func (o *MonitorPatchMonitorParams) WriteToRequest(r runtime.ClientRequest, reg 
 	}
 	var res []error
 
-	if o.APIMonitor != nil {
-		if err := r.SetBodyParam(o.APIMonitor); err != nil {
+	if o.Monitor != nil {
+		if err := r.SetBodyParam(o.Monitor); err != nil {
 			return err
 		}
 	}

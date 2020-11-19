@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // MonitorGroupAddMonitorToMonitorGroupReader is a Reader for the MonitorGroupAddMonitorToMonitorGroup structure.
@@ -44,7 +43,7 @@ func (o *MonitorGroupAddMonitorToMonitorGroupReader) ReadResponse(response runti
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewMonitorGroupAddMonitorToMonitorGroupCreated() *MonitorGroupAddMonitorToM
 
 /*MonitorGroupAddMonitorToMonitorGroupCreated handles this case with default header values.
 
-The monitor has been added to the group successfully.
+The request completed successfully. No content is returned.
 */
 type MonitorGroupAddMonitorToMonitorGroupCreated struct {
 }
@@ -79,20 +78,20 @@ func NewMonitorGroupAddMonitorToMonitorGroupBadRequest() *MonitorGroupAddMonitor
 The request failed.
 */
 type MonitorGroupAddMonitorToMonitorGroupBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGroupAddMonitorToMonitorGroupBadRequest) Error() string {
 	return fmt.Sprintf("[POST /MonitorGroup/{monitorGroupGuid}/Members/{monitorGuid}][%d] monitorGroupAddMonitorToMonitorGroupBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *MonitorGroupAddMonitorToMonitorGroupBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGroupAddMonitorToMonitorGroupBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGroupAddMonitorToMonitorGroupBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -112,20 +111,20 @@ func NewMonitorGroupAddMonitorToMonitorGroupNotFound() *MonitorGroupAddMonitorTo
 The requested monitor group was not found.
 */
 type MonitorGroupAddMonitorToMonitorGroupNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGroupAddMonitorToMonitorGroupNotFound) Error() string {
 	return fmt.Sprintf("[POST /MonitorGroup/{monitorGroupGuid}/Members/{monitorGuid}][%d] monitorGroupAddMonitorToMonitorGroupNotFound  %+v", 404, o.Payload)
 }
 
-func (o *MonitorGroupAddMonitorToMonitorGroupNotFound) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGroupAddMonitorToMonitorGroupNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGroupAddMonitorToMonitorGroupNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

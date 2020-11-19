@@ -9,12 +9,11 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new operator group API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -26,8 +25,35 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientService is the interface for Client methods
+type ClientService interface {
+	OperatorGroupAddDutyScheduleToAllMembers(params *OperatorGroupAddDutyScheduleToAllMembersParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupAddDutyScheduleToAllMembersNoContent, error)
+
+	OperatorGroupAddOperatorToOperatorGroup(params *OperatorGroupAddOperatorToOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupAddOperatorToOperatorGroupCreated, error)
+
+	OperatorGroupAllOperatorsInGroupOffDuty(params *OperatorGroupAllOperatorsInGroupOffDutyParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupAllOperatorsInGroupOffDutyNoContent, error)
+
+	OperatorGroupAllOperatorsInGroupOnDuty(params *OperatorGroupAllOperatorsInGroupOnDutyParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupAllOperatorsInGroupOnDutyNoContent, error)
+
+	OperatorGroupCreateOperatorGroup(params *OperatorGroupCreateOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupCreateOperatorGroupCreated, error)
+
+	OperatorGroupDeleteOperatorGroup(params *OperatorGroupDeleteOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupDeleteOperatorGroupNoContent, error)
+
+	OperatorGroupGetAllOperatorGroups(params *OperatorGroupGetAllOperatorGroupsParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupGetAllOperatorGroupsOK, error)
+
+	OperatorGroupGetOperatorGroup(params *OperatorGroupGetOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupGetOperatorGroupOK, error)
+
+	OperatorGroupGetOperatorGroupMembers(params *OperatorGroupGetOperatorGroupMembersParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupGetOperatorGroupMembersOK, error)
+
+	OperatorGroupRemoveOperatorFromOperatorGroup(params *OperatorGroupRemoveOperatorFromOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupRemoveOperatorFromOperatorGroupNoContent, error)
+
+	OperatorGroupUpdateOperatorGroup(params *OperatorGroupUpdateOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupUpdateOperatorGroupNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
+}
+
 /*
-OperatorGroupAddDutyScheduleToAllMembers adds the provided duty schedule to all operators in the group specified
+  OperatorGroupAddDutyScheduleToAllMembers adds the provided duty schedule to all operators in the group specified
 */
 func (a *Client) OperatorGroupAddDutyScheduleToAllMembers(params *OperatorGroupAddDutyScheduleToAllMembersParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupAddDutyScheduleToAllMembersNoContent, error) {
 	// TODO: Validate the params before sending
@@ -62,7 +88,7 @@ func (a *Client) OperatorGroupAddDutyScheduleToAllMembers(params *OperatorGroupA
 }
 
 /*
-OperatorGroupAddOperatorToOperatorGroup adds the specified operator to the operator group
+  OperatorGroupAddOperatorToOperatorGroup adds the specified operator to the operator group
 */
 func (a *Client) OperatorGroupAddOperatorToOperatorGroup(params *OperatorGroupAddOperatorToOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupAddOperatorToOperatorGroupCreated, error) {
 	// TODO: Validate the params before sending
@@ -97,23 +123,93 @@ func (a *Client) OperatorGroupAddOperatorToOperatorGroup(params *OperatorGroupAd
 }
 
 /*
-OperatorGroupCreateoperatorGroup creates a new operator group
+  OperatorGroupAllOperatorsInGroupOffDuty sets the on duty flag to off for all operators that are a member of the operator group specified by the operator group GUID
 */
-func (a *Client) OperatorGroupCreateoperatorGroup(params *OperatorGroupCreateoperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupCreateoperatorGroupCreated, error) {
+func (a *Client) OperatorGroupAllOperatorsInGroupOffDuty(params *OperatorGroupAllOperatorsInGroupOffDutyParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupAllOperatorsInGroupOffDutyNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewOperatorGroupCreateoperatorGroupParams()
+		params = NewOperatorGroupAllOperatorsInGroupOffDutyParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "OperatorGroup_CreateoperatorGroup",
+		ID:                 "OperatorGroup_AllOperatorsInGroupOffDuty",
+		Method:             "POST",
+		PathPattern:        "/OperatorGroup/{operatorGroupGuid}/AllOperatorsOffDuty",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &OperatorGroupAllOperatorsInGroupOffDutyReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*OperatorGroupAllOperatorsInGroupOffDutyNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for OperatorGroup_AllOperatorsInGroupOffDuty: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  OperatorGroupAllOperatorsInGroupOnDuty sets the on duty flag to on for all operators that are a member of the operator group specified by the operator group GUID
+*/
+func (a *Client) OperatorGroupAllOperatorsInGroupOnDuty(params *OperatorGroupAllOperatorsInGroupOnDutyParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupAllOperatorsInGroupOnDutyNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewOperatorGroupAllOperatorsInGroupOnDutyParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "OperatorGroup_AllOperatorsInGroupOnDuty",
+		Method:             "POST",
+		PathPattern:        "/OperatorGroup/{operatorGroupGuid}/AllOperatorsOnDuty",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &OperatorGroupAllOperatorsInGroupOnDutyReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*OperatorGroupAllOperatorsInGroupOnDutyNoContent)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for OperatorGroup_AllOperatorsInGroupOnDuty: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  OperatorGroupCreateOperatorGroup creates a new operator group
+*/
+func (a *Client) OperatorGroupCreateOperatorGroup(params *OperatorGroupCreateOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupCreateOperatorGroupCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewOperatorGroupCreateOperatorGroupParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "OperatorGroup_CreateOperatorGroup",
 		Method:             "POST",
 		PathPattern:        "/OperatorGroup",
 		ProducesMediaTypes: []string{"application/json", "application/xml"},
 		ConsumesMediaTypes: []string{"application/json", "application/xml"},
 		Schemes:            []string{"https"},
 		Params:             params,
-		Reader:             &OperatorGroupCreateoperatorGroupReader{formats: a.formats},
+		Reader:             &OperatorGroupCreateOperatorGroupReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -121,34 +217,34 @@ func (a *Client) OperatorGroupCreateoperatorGroup(params *OperatorGroupCreateope
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*OperatorGroupCreateoperatorGroupCreated)
+	success, ok := result.(*OperatorGroupCreateOperatorGroupCreated)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for OperatorGroup_CreateoperatorGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for OperatorGroup_CreateOperatorGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
 /*
-OperatorGroupDeleteoperatorGroup deletes the specified operator group
+  OperatorGroupDeleteOperatorGroup deletes the specified operator group
 */
-func (a *Client) OperatorGroupDeleteoperatorGroup(params *OperatorGroupDeleteoperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupDeleteoperatorGroupNoContent, error) {
+func (a *Client) OperatorGroupDeleteOperatorGroup(params *OperatorGroupDeleteOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupDeleteOperatorGroupNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewOperatorGroupDeleteoperatorGroupParams()
+		params = NewOperatorGroupDeleteOperatorGroupParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "OperatorGroup_DeleteoperatorGroup",
+		ID:                 "OperatorGroup_DeleteOperatorGroup",
 		Method:             "DELETE",
 		PathPattern:        "/OperatorGroup/{operatorGroupGuid}",
 		ProducesMediaTypes: []string{"application/json", "application/xml"},
 		ConsumesMediaTypes: []string{"application/json", "application/xml"},
 		Schemes:            []string{"https"},
 		Params:             params,
-		Reader:             &OperatorGroupDeleteoperatorGroupReader{formats: a.formats},
+		Reader:             &OperatorGroupDeleteOperatorGroupReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -156,34 +252,34 @@ func (a *Client) OperatorGroupDeleteoperatorGroup(params *OperatorGroupDeleteope
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*OperatorGroupDeleteoperatorGroupNoContent)
+	success, ok := result.(*OperatorGroupDeleteOperatorGroupNoContent)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for OperatorGroup_DeleteoperatorGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for OperatorGroup_DeleteOperatorGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
 /*
-OperatorGroupGetAlloperatorGroups gets all operator groups
+  OperatorGroupGetAllOperatorGroups gets all operator groups
 */
-func (a *Client) OperatorGroupGetAlloperatorGroups(params *OperatorGroupGetAlloperatorGroupsParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupGetAlloperatorGroupsOK, error) {
+func (a *Client) OperatorGroupGetAllOperatorGroups(params *OperatorGroupGetAllOperatorGroupsParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupGetAllOperatorGroupsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewOperatorGroupGetAlloperatorGroupsParams()
+		params = NewOperatorGroupGetAllOperatorGroupsParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "OperatorGroup_GetAlloperatorGroups",
+		ID:                 "OperatorGroup_GetAllOperatorGroups",
 		Method:             "GET",
 		PathPattern:        "/OperatorGroup",
 		ProducesMediaTypes: []string{"application/json", "application/xml"},
 		ConsumesMediaTypes: []string{"application/json", "application/xml"},
 		Schemes:            []string{"https"},
 		Params:             params,
-		Reader:             &OperatorGroupGetAlloperatorGroupsReader{formats: a.formats},
+		Reader:             &OperatorGroupGetAllOperatorGroupsReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -191,18 +287,18 @@ func (a *Client) OperatorGroupGetAlloperatorGroups(params *OperatorGroupGetAllop
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*OperatorGroupGetAlloperatorGroupsOK)
+	success, ok := result.(*OperatorGroupGetAllOperatorGroupsOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for OperatorGroup_GetAlloperatorGroups: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for OperatorGroup_GetAllOperatorGroups: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
 /*
-OperatorGroupGetOperatorGroup gets the details of a operator group
+  OperatorGroupGetOperatorGroup gets the details of a operator group
 */
 func (a *Client) OperatorGroupGetOperatorGroup(params *OperatorGroupGetOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupGetOperatorGroupOK, error) {
 	// TODO: Validate the params before sending
@@ -237,23 +333,23 @@ func (a *Client) OperatorGroupGetOperatorGroup(params *OperatorGroupGetOperatorG
 }
 
 /*
-OperatorGroupGetoperatorGroupMembers gets a list of all members of a operator group
+  OperatorGroupGetOperatorGroupMembers gets a list of all members of an operator group
 */
-func (a *Client) OperatorGroupGetoperatorGroupMembers(params *OperatorGroupGetoperatorGroupMembersParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupGetoperatorGroupMembersOK, error) {
+func (a *Client) OperatorGroupGetOperatorGroupMembers(params *OperatorGroupGetOperatorGroupMembersParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupGetOperatorGroupMembersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewOperatorGroupGetoperatorGroupMembersParams()
+		params = NewOperatorGroupGetOperatorGroupMembersParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "OperatorGroup_GetoperatorGroupMembers",
+		ID:                 "OperatorGroup_GetOperatorGroupMembers",
 		Method:             "GET",
 		PathPattern:        "/OperatorGroup/{operatorGroupGuid}/Member",
 		ProducesMediaTypes: []string{"application/json", "application/xml"},
 		ConsumesMediaTypes: []string{"application/json", "application/xml"},
 		Schemes:            []string{"https"},
 		Params:             params,
-		Reader:             &OperatorGroupGetoperatorGroupMembersReader{formats: a.formats},
+		Reader:             &OperatorGroupGetOperatorGroupMembersReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -261,34 +357,34 @@ func (a *Client) OperatorGroupGetoperatorGroupMembers(params *OperatorGroupGetop
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*OperatorGroupGetoperatorGroupMembersOK)
+	success, ok := result.(*OperatorGroupGetOperatorGroupMembersOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for OperatorGroup_GetoperatorGroupMembers: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for OperatorGroup_GetOperatorGroupMembers: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
 /*
-OperatorGroupRemoveoperatorFromoperatorGroup removes the specified operator from the operator group
+  OperatorGroupRemoveOperatorFromOperatorGroup removes the specified operator from the operator group
 */
-func (a *Client) OperatorGroupRemoveoperatorFromoperatorGroup(params *OperatorGroupRemoveoperatorFromoperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupRemoveoperatorFromoperatorGroupNoContent, error) {
+func (a *Client) OperatorGroupRemoveOperatorFromOperatorGroup(params *OperatorGroupRemoveOperatorFromOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupRemoveOperatorFromOperatorGroupNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewOperatorGroupRemoveoperatorFromoperatorGroupParams()
+		params = NewOperatorGroupRemoveOperatorFromOperatorGroupParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "OperatorGroup_RemoveoperatorFromoperatorGroup",
+		ID:                 "OperatorGroup_RemoveOperatorFromOperatorGroup",
 		Method:             "DELETE",
 		PathPattern:        "/OperatorGroup/{operatorGroupGuid}/Member/{operatorGuid}",
 		ProducesMediaTypes: []string{"application/json", "application/xml"},
 		ConsumesMediaTypes: []string{"application/json", "application/xml"},
 		Schemes:            []string{"https"},
 		Params:             params,
-		Reader:             &OperatorGroupRemoveoperatorFromoperatorGroupReader{formats: a.formats},
+		Reader:             &OperatorGroupRemoveOperatorFromOperatorGroupReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -296,34 +392,34 @@ func (a *Client) OperatorGroupRemoveoperatorFromoperatorGroup(params *OperatorGr
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*OperatorGroupRemoveoperatorFromoperatorGroupNoContent)
+	success, ok := result.(*OperatorGroupRemoveOperatorFromOperatorGroupNoContent)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for OperatorGroup_RemoveoperatorFromoperatorGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for OperatorGroup_RemoveOperatorFromOperatorGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
 /*
-OperatorGroupUpdateoperatorGroup updates the operator group with the Guid specified
+  OperatorGroupUpdateOperatorGroup updates the operator group with the Guid specified
 */
-func (a *Client) OperatorGroupUpdateoperatorGroup(params *OperatorGroupUpdateoperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupUpdateoperatorGroupNoContent, error) {
+func (a *Client) OperatorGroupUpdateOperatorGroup(params *OperatorGroupUpdateOperatorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*OperatorGroupUpdateOperatorGroupNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewOperatorGroupUpdateoperatorGroupParams()
+		params = NewOperatorGroupUpdateOperatorGroupParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "OperatorGroup_UpdateoperatorGroup",
+		ID:                 "OperatorGroup_UpdateOperatorGroup",
 		Method:             "PUT",
 		PathPattern:        "/OperatorGroup/{operatorGroupGuid}",
 		ProducesMediaTypes: []string{"application/json", "application/xml"},
 		ConsumesMediaTypes: []string{"application/json", "application/xml"},
 		Schemes:            []string{"https"},
 		Params:             params,
-		Reader:             &OperatorGroupUpdateoperatorGroupReader{formats: a.formats},
+		Reader:             &OperatorGroupUpdateOperatorGroupReader{formats: a.formats},
 		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
@@ -331,13 +427,13 @@ func (a *Client) OperatorGroupUpdateoperatorGroup(params *OperatorGroupUpdateope
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*OperatorGroupUpdateoperatorGroupNoContent)
+	success, ok := result.(*OperatorGroupUpdateOperatorGroupNoContent)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for OperatorGroup_UpdateoperatorGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for OperatorGroup_UpdateOperatorGroup: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 

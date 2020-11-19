@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // RegisterPostReader is a Reader for the RegisterPost structure.
@@ -24,40 +23,40 @@ type RegisterPostReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *RegisterPostReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
-	case 200:
-		result := NewRegisterPostOK()
+	case 201:
+		result := NewRegisterPostCreated()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
 			return nil, err
 		}
 		return result, nil
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
-// NewRegisterPostOK creates a RegisterPostOK with default headers values
-func NewRegisterPostOK() *RegisterPostOK {
-	return &RegisterPostOK{}
+// NewRegisterPostCreated creates a RegisterPostCreated with default headers values
+func NewRegisterPostCreated() *RegisterPostCreated {
+	return &RegisterPostCreated{}
 }
 
-/*RegisterPostOK handles this case with default header values.
+/*RegisterPostCreated handles this case with default header values.
 
 If you get this response, a new API account was created successfully.
 */
-type RegisterPostOK struct {
+type RegisterPostCreated struct {
 	Payload *models.RegistrationResponse
 }
 
-func (o *RegisterPostOK) Error() string {
-	return fmt.Sprintf("[POST /Register][%d] registerPostOK  %+v", 200, o.Payload)
+func (o *RegisterPostCreated) Error() string {
+	return fmt.Sprintf("[POST /Register][%d] registerPostCreated  %+v", 201, o.Payload)
 }
 
-func (o *RegisterPostOK) GetPayload() *models.RegistrationResponse {
+func (o *RegisterPostCreated) GetPayload() *models.RegistrationResponse {
 	return o.Payload
 }
 
-func (o *RegisterPostOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+func (o *RegisterPostCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
 	o.Payload = new(models.RegistrationResponse)
 

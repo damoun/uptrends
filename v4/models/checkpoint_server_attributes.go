@@ -8,13 +8,13 @@ package models
 import (
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // CheckpointServerAttributes Checkpoint server attributes
+//
 // swagger:model CheckpointServerAttributes
 type CheckpointServerAttributes struct {
 

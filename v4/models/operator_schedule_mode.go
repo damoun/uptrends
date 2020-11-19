@@ -8,13 +8,13 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // OperatorScheduleMode operator schedule mode
+//
 // swagger:model OperatorScheduleMode
 type OperatorScheduleMode string
 
@@ -47,7 +47,7 @@ func init() {
 }
 
 func (m OperatorScheduleMode) validateOperatorScheduleModeEnum(path, location string, value OperatorScheduleMode) error {
-	if err := validate.Enum(path, location, value, operatorScheduleModeEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, operatorScheduleModeEnum, true); err != nil {
 		return err
 	}
 	return nil

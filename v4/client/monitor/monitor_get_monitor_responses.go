@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // MonitorGetMonitorReader is a Reader for the MonitorGetMonitor structure.
@@ -44,7 +43,7 @@ func (o *MonitorGetMonitorReader) ReadResponse(response runtime.ClientResponse, 
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,23 +54,23 @@ func NewMonitorGetMonitorOK() *MonitorGetMonitorOK {
 
 /*MonitorGetMonitorOK handles this case with default header values.
 
-MonitorGetMonitorOK monitor get monitor o k
+The request completed successfully.
 */
 type MonitorGetMonitorOK struct {
-	Payload *models.APIMonitor
+	Payload *models.Monitor
 }
 
 func (o *MonitorGetMonitorOK) Error() string {
 	return fmt.Sprintf("[GET /Monitor/{monitorGuid}][%d] monitorGetMonitorOK  %+v", 200, o.Payload)
 }
 
-func (o *MonitorGetMonitorOK) GetPayload() *models.APIMonitor {
+func (o *MonitorGetMonitorOK) GetPayload() *models.Monitor {
 	return o.Payload
 }
 
 func (o *MonitorGetMonitorOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMonitor)
+	o.Payload = new(models.Monitor)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -91,20 +90,20 @@ func NewMonitorGetMonitorBadRequest() *MonitorGetMonitorBadRequest {
 The request failed.
 */
 type MonitorGetMonitorBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGetMonitorBadRequest) Error() string {
 	return fmt.Sprintf("[GET /Monitor/{monitorGuid}][%d] monitorGetMonitorBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *MonitorGetMonitorBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGetMonitorBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGetMonitorBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -124,20 +123,20 @@ func NewMonitorGetMonitorNotFound() *MonitorGetMonitorNotFound {
 The specified monitor does not exist.
 */
 type MonitorGetMonitorNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGetMonitorNotFound) Error() string {
 	return fmt.Sprintf("[GET /Monitor/{monitorGuid}][%d] monitorGetMonitorNotFound  %+v", 404, o.Payload)
 }
 
-func (o *MonitorGetMonitorNotFound) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGetMonitorNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGetMonitorNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

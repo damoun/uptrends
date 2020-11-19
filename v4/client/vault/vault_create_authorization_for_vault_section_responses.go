@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // VaultCreateAuthorizationForVaultSectionReader is a Reader for the VaultCreateAuthorizationForVaultSection structure.
@@ -44,7 +43,7 @@ func (o *VaultCreateAuthorizationForVaultSectionReader) ReadResponse(response ru
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,23 +54,23 @@ func NewVaultCreateAuthorizationForVaultSectionCreated() *VaultCreateAuthorizati
 
 /*VaultCreateAuthorizationForVaultSectionCreated handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully.
 */
 type VaultCreateAuthorizationForVaultSectionCreated struct {
-	Payload *models.Authorization
+	Payload *models.VaultSectionAuthorization
 }
 
 func (o *VaultCreateAuthorizationForVaultSectionCreated) Error() string {
 	return fmt.Sprintf("[POST /VaultSection/{vaultSectionGuid}/Authorization][%d] vaultCreateAuthorizationForVaultSectionCreated  %+v", 201, o.Payload)
 }
 
-func (o *VaultCreateAuthorizationForVaultSectionCreated) GetPayload() *models.Authorization {
+func (o *VaultCreateAuthorizationForVaultSectionCreated) GetPayload() *models.VaultSectionAuthorization {
 	return o.Payload
 }
 
 func (o *VaultCreateAuthorizationForVaultSectionCreated) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.Authorization)
+	o.Payload = new(models.VaultSectionAuthorization)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -91,20 +90,20 @@ func NewVaultCreateAuthorizationForVaultSectionBadRequest() *VaultCreateAuthoriz
 The request failed.
 */
 type VaultCreateAuthorizationForVaultSectionBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultCreateAuthorizationForVaultSectionBadRequest) Error() string {
 	return fmt.Sprintf("[POST /VaultSection/{vaultSectionGuid}/Authorization][%d] vaultCreateAuthorizationForVaultSectionBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *VaultCreateAuthorizationForVaultSectionBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *VaultCreateAuthorizationForVaultSectionBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultCreateAuthorizationForVaultSectionBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -124,20 +123,20 @@ func NewVaultCreateAuthorizationForVaultSectionNotFound() *VaultCreateAuthorizat
 The requested vault section does not exist.
 */
 type VaultCreateAuthorizationForVaultSectionNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultCreateAuthorizationForVaultSectionNotFound) Error() string {
 	return fmt.Sprintf("[POST /VaultSection/{vaultSectionGuid}/Authorization][%d] vaultCreateAuthorizationForVaultSectionNotFound  %+v", 404, o.Payload)
 }
 
-func (o *VaultCreateAuthorizationForVaultSectionNotFound) GetPayload() *models.APIMessageInfo {
+func (o *VaultCreateAuthorizationForVaultSectionNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultCreateAuthorizationForVaultSectionNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

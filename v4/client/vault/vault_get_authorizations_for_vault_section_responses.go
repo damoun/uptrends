@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // VaultGetAuthorizationsForVaultSectionReader is a Reader for the VaultGetAuthorizationsForVaultSection structure.
@@ -44,7 +43,7 @@ func (o *VaultGetAuthorizationsForVaultSectionReader) ReadResponse(response runt
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,23 +54,23 @@ func NewVaultGetAuthorizationsForVaultSectionOK() *VaultGetAuthorizationsForVaul
 
 /*VaultGetAuthorizationsForVaultSectionOK handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully.
 */
 type VaultGetAuthorizationsForVaultSectionOK struct {
-	Payload *models.Authorization
+	Payload *models.VaultSectionAuthorization
 }
 
 func (o *VaultGetAuthorizationsForVaultSectionOK) Error() string {
 	return fmt.Sprintf("[GET /VaultSection/{vaultSectionGuid}/Authorization][%d] vaultGetAuthorizationsForVaultSectionOK  %+v", 200, o.Payload)
 }
 
-func (o *VaultGetAuthorizationsForVaultSectionOK) GetPayload() *models.Authorization {
+func (o *VaultGetAuthorizationsForVaultSectionOK) GetPayload() *models.VaultSectionAuthorization {
 	return o.Payload
 }
 
 func (o *VaultGetAuthorizationsForVaultSectionOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.Authorization)
+	o.Payload = new(models.VaultSectionAuthorization)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -91,20 +90,20 @@ func NewVaultGetAuthorizationsForVaultSectionBadRequest() *VaultGetAuthorization
 The request failed.
 */
 type VaultGetAuthorizationsForVaultSectionBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultGetAuthorizationsForVaultSectionBadRequest) Error() string {
 	return fmt.Sprintf("[GET /VaultSection/{vaultSectionGuid}/Authorization][%d] vaultGetAuthorizationsForVaultSectionBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *VaultGetAuthorizationsForVaultSectionBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *VaultGetAuthorizationsForVaultSectionBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultGetAuthorizationsForVaultSectionBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -124,20 +123,20 @@ func NewVaultGetAuthorizationsForVaultSectionNotFound() *VaultGetAuthorizationsF
 The requested vault section does not exist.
 */
 type VaultGetAuthorizationsForVaultSectionNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultGetAuthorizationsForVaultSectionNotFound) Error() string {
 	return fmt.Sprintf("[GET /VaultSection/{vaultSectionGuid}/Authorization][%d] vaultGetAuthorizationsForVaultSectionNotFound  %+v", 404, o.Payload)
 }
 
-func (o *VaultGetAuthorizationsForVaultSectionNotFound) GetPayload() *models.APIMessageInfo {
+func (o *VaultGetAuthorizationsForVaultSectionNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultGetAuthorizationsForVaultSectionNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

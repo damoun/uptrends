@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // CheckpointGetAllCheckpointsReader is a Reader for the CheckpointGetAllCheckpoints structure.
@@ -38,7 +37,7 @@ func (o *CheckpointGetAllCheckpointsReader) ReadResponse(response runtime.Client
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -49,7 +48,7 @@ func NewCheckpointGetAllCheckpointsOK() *CheckpointGetAllCheckpointsOK {
 
 /*CheckpointGetAllCheckpointsOK handles this case with default header values.
 
-List of checkpoints
+The request completed successfully.
 */
 type CheckpointGetAllCheckpointsOK struct {
 	Payload *models.CheckpointListResponse
@@ -85,20 +84,20 @@ func NewCheckpointGetAllCheckpointsBadRequest() *CheckpointGetAllCheckpointsBadR
 The request failed.
 */
 type CheckpointGetAllCheckpointsBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *CheckpointGetAllCheckpointsBadRequest) Error() string {
 	return fmt.Sprintf("[GET /Checkpoint][%d] checkpointGetAllCheckpointsBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *CheckpointGetAllCheckpointsBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *CheckpointGetAllCheckpointsBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *CheckpointGetAllCheckpointsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // OperatorGetDutyScheduleForOperatorReader is a Reader for the OperatorGetDutyScheduleForOperator structure.
@@ -44,7 +43,7 @@ func (o *OperatorGetDutyScheduleForOperatorReader) ReadResponse(response runtime
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewOperatorGetDutyScheduleForOperatorOK() *OperatorGetDutyScheduleForOperat
 
 /*OperatorGetDutyScheduleForOperatorOK handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully.
 */
 type OperatorGetDutyScheduleForOperatorOK struct {
 	Payload []*models.OperatorDutySchedule
@@ -89,20 +88,20 @@ func NewOperatorGetDutyScheduleForOperatorBadRequest() *OperatorGetDutyScheduleF
 The request failed.
 */
 type OperatorGetDutyScheduleForOperatorBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorGetDutyScheduleForOperatorBadRequest) Error() string {
 	return fmt.Sprintf("[GET /Operator/{operatorGuid}/DutySchedule][%d] operatorGetDutyScheduleForOperatorBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *OperatorGetDutyScheduleForOperatorBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *OperatorGetDutyScheduleForOperatorBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorGetDutyScheduleForOperatorBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -122,20 +121,20 @@ func NewOperatorGetDutyScheduleForOperatorNotFound() *OperatorGetDutyScheduleFor
 The specified operator was not found.
 */
 type OperatorGetDutyScheduleForOperatorNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorGetDutyScheduleForOperatorNotFound) Error() string {
 	return fmt.Sprintf("[GET /Operator/{operatorGuid}/DutySchedule][%d] operatorGetDutyScheduleForOperatorNotFound  %+v", 404, o.Payload)
 }
 
-func (o *OperatorGetDutyScheduleForOperatorNotFound) GetPayload() *models.APIMessageInfo {
+func (o *OperatorGetDutyScheduleForOperatorNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorGetDutyScheduleForOperatorNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

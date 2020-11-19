@@ -6,26 +6,26 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // IPV6Address Ipv6 address
-// swagger:model IPv6Address
+//
+// swagger:model Ipv6Address
 type IPV6Address struct {
 
-	// The Ipv6 address
+	// The IPv6 address
 	IPAddress string `json:"IpAddress,omitempty"`
 
-	// Is this a native v6 address?
+	// This indicates whether this is a native IPv6 address
 	// Required: true
 	IsNative *bool `json:"IsNative"`
 }
 
-// Validate validates this IPv6 address
+// Validate validates this Ipv6 address
 func (m *IPV6Address) Validate(formats strfmt.Registry) error {
 	var res []error
 

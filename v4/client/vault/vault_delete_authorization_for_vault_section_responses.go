@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // VaultDeleteAuthorizationForVaultSectionReader is a Reader for the VaultDeleteAuthorizationForVaultSection structure.
@@ -44,7 +43,7 @@ func (o *VaultDeleteAuthorizationForVaultSectionReader) ReadResponse(response ru
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,28 +54,16 @@ func NewVaultDeleteAuthorizationForVaultSectionNoContent() *VaultDeleteAuthoriza
 
 /*VaultDeleteAuthorizationForVaultSectionNoContent handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully. No content is returned.
 */
 type VaultDeleteAuthorizationForVaultSectionNoContent struct {
-	Payload *models.Authorization
 }
 
 func (o *VaultDeleteAuthorizationForVaultSectionNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /VaultSection/{vaultSectionGuid}/Authorization/{authorizationGuid}][%d] vaultDeleteAuthorizationForVaultSectionNoContent  %+v", 204, o.Payload)
-}
-
-func (o *VaultDeleteAuthorizationForVaultSectionNoContent) GetPayload() *models.Authorization {
-	return o.Payload
+	return fmt.Sprintf("[DELETE /VaultSection/{vaultSectionGuid}/Authorization/{authorizationGuid}][%d] vaultDeleteAuthorizationForVaultSectionNoContent ", 204)
 }
 
 func (o *VaultDeleteAuthorizationForVaultSectionNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.Authorization)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
 
 	return nil
 }
@@ -91,20 +78,20 @@ func NewVaultDeleteAuthorizationForVaultSectionBadRequest() *VaultDeleteAuthoriz
 The request failed.
 */
 type VaultDeleteAuthorizationForVaultSectionBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultDeleteAuthorizationForVaultSectionBadRequest) Error() string {
 	return fmt.Sprintf("[DELETE /VaultSection/{vaultSectionGuid}/Authorization/{authorizationGuid}][%d] vaultDeleteAuthorizationForVaultSectionBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *VaultDeleteAuthorizationForVaultSectionBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *VaultDeleteAuthorizationForVaultSectionBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultDeleteAuthorizationForVaultSectionBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -126,20 +113,20 @@ or
 The requested vault section authorization does not exist.
 */
 type VaultDeleteAuthorizationForVaultSectionNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultDeleteAuthorizationForVaultSectionNotFound) Error() string {
 	return fmt.Sprintf("[DELETE /VaultSection/{vaultSectionGuid}/Authorization/{authorizationGuid}][%d] vaultDeleteAuthorizationForVaultSectionNotFound  %+v", 404, o.Payload)
 }
 
-func (o *VaultDeleteAuthorizationForVaultSectionNotFound) GetPayload() *models.APIMessageInfo {
+func (o *VaultDeleteAuthorizationForVaultSectionNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultDeleteAuthorizationForVaultSectionNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // MonitorGroupStopAllMonitorAlertsInGroupReader is a Reader for the MonitorGroupStopAllMonitorAlertsInGroup structure.
@@ -44,7 +43,7 @@ func (o *MonitorGroupStopAllMonitorAlertsInGroupReader) ReadResponse(response ru
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewMonitorGroupStopAllMonitorAlertsInGroupNoContent() *MonitorGroupStopAllM
 
 /*MonitorGroupStopAllMonitorAlertsInGroupNoContent handles this case with default header values.
 
-Alerting for all monitors in the group has been stopped.
+The request completed successfully. No content is returned.
 */
 type MonitorGroupStopAllMonitorAlertsInGroupNoContent struct {
 }
@@ -79,20 +78,20 @@ func NewMonitorGroupStopAllMonitorAlertsInGroupBadRequest() *MonitorGroupStopAll
 The request failed.
 */
 type MonitorGroupStopAllMonitorAlertsInGroupBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGroupStopAllMonitorAlertsInGroupBadRequest) Error() string {
 	return fmt.Sprintf("[POST /MonitorGroup/{monitorGroupGuid}/StopAllMonitorAlerts][%d] monitorGroupStopAllMonitorAlertsInGroupBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *MonitorGroupStopAllMonitorAlertsInGroupBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGroupStopAllMonitorAlertsInGroupBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGroupStopAllMonitorAlertsInGroupBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -112,20 +111,20 @@ func NewMonitorGroupStopAllMonitorAlertsInGroupNotFound() *MonitorGroupStopAllMo
 The requested monitor group was not found.
 */
 type MonitorGroupStopAllMonitorAlertsInGroupNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGroupStopAllMonitorAlertsInGroupNotFound) Error() string {
 	return fmt.Sprintf("[POST /MonitorGroup/{monitorGroupGuid}/StopAllMonitorAlerts][%d] monitorGroupStopAllMonitorAlertsInGroupNotFound  %+v", 404, o.Payload)
 }
 
-func (o *MonitorGroupStopAllMonitorAlertsInGroupNotFound) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGroupStopAllMonitorAlertsInGroupNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGroupStopAllMonitorAlertsInGroupNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

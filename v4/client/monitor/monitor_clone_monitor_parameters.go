@@ -13,9 +13,8 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewMonitorCloneMonitorParams creates a new MonitorCloneMonitorParams object
@@ -23,11 +22,11 @@ import (
 func NewMonitorCloneMonitorParams() *MonitorCloneMonitorParams {
 	var (
 		includeMaintenancePeriodsDefault = bool(true)
-		includeOperatorGroupsDefault     = bool(true)
+		includeMonitorGroupsDefault      = bool(true)
 	)
 	return &MonitorCloneMonitorParams{
 		IncludeMaintenancePeriods: &includeMaintenancePeriodsDefault,
-		IncludeOperatorGroups:     &includeOperatorGroupsDefault,
+		IncludeMonitorGroups:      &includeMonitorGroupsDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -38,11 +37,11 @@ func NewMonitorCloneMonitorParams() *MonitorCloneMonitorParams {
 func NewMonitorCloneMonitorParamsWithTimeout(timeout time.Duration) *MonitorCloneMonitorParams {
 	var (
 		includeMaintenancePeriodsDefault = bool(true)
-		includeOperatorGroupsDefault     = bool(true)
+		includeMonitorGroupsDefault      = bool(true)
 	)
 	return &MonitorCloneMonitorParams{
 		IncludeMaintenancePeriods: &includeMaintenancePeriodsDefault,
-		IncludeOperatorGroups:     &includeOperatorGroupsDefault,
+		IncludeMonitorGroups:      &includeMonitorGroupsDefault,
 
 		timeout: timeout,
 	}
@@ -53,11 +52,11 @@ func NewMonitorCloneMonitorParamsWithTimeout(timeout time.Duration) *MonitorClon
 func NewMonitorCloneMonitorParamsWithContext(ctx context.Context) *MonitorCloneMonitorParams {
 	var (
 		includeMaintenancePeriodsDefault = bool(true)
-		includeOperatorGroupsDefault     = bool(true)
+		includeMonitorGroupsDefault      = bool(true)
 	)
 	return &MonitorCloneMonitorParams{
 		IncludeMaintenancePeriods: &includeMaintenancePeriodsDefault,
-		IncludeOperatorGroups:     &includeOperatorGroupsDefault,
+		IncludeMonitorGroups:      &includeMonitorGroupsDefault,
 
 		Context: ctx,
 	}
@@ -68,11 +67,11 @@ func NewMonitorCloneMonitorParamsWithContext(ctx context.Context) *MonitorCloneM
 func NewMonitorCloneMonitorParamsWithHTTPClient(client *http.Client) *MonitorCloneMonitorParams {
 	var (
 		includeMaintenancePeriodsDefault = bool(true)
-		includeOperatorGroupsDefault     = bool(true)
+		includeMonitorGroupsDefault      = bool(true)
 	)
 	return &MonitorCloneMonitorParams{
 		IncludeMaintenancePeriods: &includeMaintenancePeriodsDefault,
-		IncludeOperatorGroups:     &includeOperatorGroupsDefault,
+		IncludeMonitorGroups:      &includeMonitorGroupsDefault,
 		HTTPClient:                client,
 	}
 }
@@ -87,11 +86,11 @@ type MonitorCloneMonitorParams struct {
 
 	*/
 	IncludeMaintenancePeriods *bool
-	/*IncludeOperatorGroups
-	  Whether or not to also copy the operator group memberships into the clone.
+	/*IncludeMonitorGroups
+	  Whether or not to also copy the monitor group memberships into the clone.
 
 	*/
-	IncludeOperatorGroups *bool
+	IncludeMonitorGroups *bool
 	/*MonitorGUID
 	  The guid of the monitor you want to clone.
 
@@ -147,15 +146,15 @@ func (o *MonitorCloneMonitorParams) SetIncludeMaintenancePeriods(includeMaintena
 	o.IncludeMaintenancePeriods = includeMaintenancePeriods
 }
 
-// WithIncludeOperatorGroups adds the includeOperatorGroups to the monitor clone monitor params
-func (o *MonitorCloneMonitorParams) WithIncludeOperatorGroups(includeOperatorGroups *bool) *MonitorCloneMonitorParams {
-	o.SetIncludeOperatorGroups(includeOperatorGroups)
+// WithIncludeMonitorGroups adds the includeMonitorGroups to the monitor clone monitor params
+func (o *MonitorCloneMonitorParams) WithIncludeMonitorGroups(includeMonitorGroups *bool) *MonitorCloneMonitorParams {
+	o.SetIncludeMonitorGroups(includeMonitorGroups)
 	return o
 }
 
-// SetIncludeOperatorGroups adds the includeOperatorGroups to the monitor clone monitor params
-func (o *MonitorCloneMonitorParams) SetIncludeOperatorGroups(includeOperatorGroups *bool) {
-	o.IncludeOperatorGroups = includeOperatorGroups
+// SetIncludeMonitorGroups adds the includeMonitorGroups to the monitor clone monitor params
+func (o *MonitorCloneMonitorParams) SetIncludeMonitorGroups(includeMonitorGroups *bool) {
+	o.IncludeMonitorGroups = includeMonitorGroups
 }
 
 // WithMonitorGUID adds the monitorGUID to the monitor clone monitor params
@@ -193,16 +192,16 @@ func (o *MonitorCloneMonitorParams) WriteToRequest(r runtime.ClientRequest, reg 
 
 	}
 
-	if o.IncludeOperatorGroups != nil {
+	if o.IncludeMonitorGroups != nil {
 
-		// query param includeOperatorGroups
-		var qrIncludeOperatorGroups bool
-		if o.IncludeOperatorGroups != nil {
-			qrIncludeOperatorGroups = *o.IncludeOperatorGroups
+		// query param includeMonitorGroups
+		var qrIncludeMonitorGroups bool
+		if o.IncludeMonitorGroups != nil {
+			qrIncludeMonitorGroups = *o.IncludeMonitorGroups
 		}
-		qIncludeOperatorGroups := swag.FormatBool(qrIncludeOperatorGroups)
-		if qIncludeOperatorGroups != "" {
-			if err := r.SetQueryParam("includeOperatorGroups", qIncludeOperatorGroups); err != nil {
+		qIncludeMonitorGroups := swag.FormatBool(qrIncludeMonitorGroups)
+		if qIncludeMonitorGroups != "" {
+			if err := r.SetQueryParam("includeMonitorGroups", qIncludeMonitorGroups); err != nil {
 				return err
 			}
 		}

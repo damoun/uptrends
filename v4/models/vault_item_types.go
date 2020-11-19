@@ -8,13 +8,13 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // VaultItemTypes vault item types
+//
 // swagger:model VaultItemTypes
 type VaultItemTypes string
 
@@ -31,6 +31,9 @@ const (
 
 	// VaultItemTypesCertificateArchive captures enum value "CertificateArchive"
 	VaultItemTypesCertificateArchive VaultItemTypes = "CertificateArchive"
+
+	// VaultItemTypesFile captures enum value "File"
+	VaultItemTypesFile VaultItemTypes = "File"
 )
 
 // for schema
@@ -38,7 +41,7 @@ var vaultItemTypesEnum []interface{}
 
 func init() {
 	var res []VaultItemTypes
-	if err := json.Unmarshal([]byte(`["CredentialSet","Certificate","Text","CertificateArchive"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["CredentialSet","Certificate","Text","CertificateArchive","File"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -47,7 +50,7 @@ func init() {
 }
 
 func (m VaultItemTypes) validateVaultItemTypesEnum(path, location string, value VaultItemTypes) error {
-	if err := validate.Enum(path, location, value, vaultItemTypesEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, vaultItemTypesEnum, true); err != nil {
 		return err
 	}
 	return nil

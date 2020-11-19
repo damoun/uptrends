@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // MonitorCleanupMaintenancePeriodsReader is a Reader for the MonitorCleanupMaintenancePeriods structure.
@@ -44,7 +43,7 @@ func (o *MonitorCleanupMaintenancePeriodsReader) ReadResponse(response runtime.C
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewMonitorCleanupMaintenancePeriodsNoContent() *MonitorCleanupMaintenancePe
 
 /*MonitorCleanupMaintenancePeriodsNoContent handles this case with default header values.
 
-The maintenance periods older than the specified date have been deleted. No content is returned.
+The request completed successfully. No content is returned.
 */
 type MonitorCleanupMaintenancePeriodsNoContent struct {
 }
@@ -79,20 +78,20 @@ func NewMonitorCleanupMaintenancePeriodsBadRequest() *MonitorCleanupMaintenanceP
 The request failed.
 */
 type MonitorCleanupMaintenancePeriodsBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorCleanupMaintenancePeriodsBadRequest) Error() string {
 	return fmt.Sprintf("[POST /Monitor/{monitorGuid}/MaintenancePeriod/Cleanup/{beforeDate}][%d] monitorCleanupMaintenancePeriodsBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *MonitorCleanupMaintenancePeriodsBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *MonitorCleanupMaintenancePeriodsBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorCleanupMaintenancePeriodsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -112,20 +111,20 @@ func NewMonitorCleanupMaintenancePeriodsNotFound() *MonitorCleanupMaintenancePer
 The specified monitor does not exist.
 */
 type MonitorCleanupMaintenancePeriodsNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorCleanupMaintenancePeriodsNotFound) Error() string {
 	return fmt.Sprintf("[POST /Monitor/{monitorGuid}/MaintenancePeriod/Cleanup/{beforeDate}][%d] monitorCleanupMaintenancePeriodsNotFound  %+v", 404, o.Payload)
 }
 
-func (o *MonitorCleanupMaintenancePeriodsNotFound) GetPayload() *models.APIMessageInfo {
+func (o *MonitorCleanupMaintenancePeriodsNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorCleanupMaintenancePeriodsNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

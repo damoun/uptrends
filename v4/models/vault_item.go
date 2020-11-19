@@ -6,48 +6,58 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // VaultItem vault item
+//
 // swagger:model VaultItem
 type VaultItem struct {
 
-	// certificate archive
-	CertificateArchive *CertificateArchive `json:"CertificateArchive,omitempty"`
+	// The certificate archive that is stored in this vault item, if applicable
+	CertificateArchive struct {
+		CertificateArchive
+	} `json:"CertificateArchive,omitempty"`
 
-	// is sensitive
-	// Required: true
-	IsSensitive *bool `json:"IsSensitive"`
+	// The file info that is stored in this vault item, if applicable
+	FileInfo struct {
+		FileInfo
+	} `json:"FileInfo,omitempty"`
 
-	// name
+	// The hash of this vault item
+	Hash string `json:"Hash,omitempty"`
+
+	// Whether or not the vault item is considered sensitive.
+	IsSensitive bool `json:"IsSensitive,omitempty"`
+
+	// The name of this vault item
 	Name string `json:"Name,omitempty"`
 
-	// notes
+	// Notes about this vault item
 	Notes string `json:"Notes,omitempty"`
 
-	// password
+	// The password associated with a credentialset
 	Password string `json:"Password,omitempty"`
 
-	// user name
+	// The UserName of a credentialset
 	UserName string `json:"UserName,omitempty"`
 
-	// value
+	// The value that is stored in this vault item. Not used for Certificate Archives
 	Value string `json:"Value,omitempty"`
 
-	// vault item Guid
-	// Required: true
-	VaultItemGUID *string `json:"VaultItemGuid"`
+	// The unique key of this vault item
+	VaultItemGUID string `json:"VaultItemGuid,omitempty"`
 
-	// vault item type
+	// The vault item type
 	// Required: true
-	VaultItemType VaultItemTypes `json:"VaultItemType"`
+	VaultItemType struct {
+		VaultItemTypes
+	} `json:"VaultItemType"`
 
-	// vault section Guid
+	// The unique identifier of the vault section that this vault item belongs to
 	// Required: true
 	VaultSectionGUID *string `json:"VaultSectionGuid"`
 }
@@ -60,11 +70,7 @@ func (m *VaultItem) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateIsSensitive(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateVaultItemGUID(formats); err != nil {
+	if err := m.validateFileInfo(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -88,44 +94,19 @@ func (m *VaultItem) validateCertificateArchive(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if m.CertificateArchive != nil {
-		if err := m.CertificateArchive.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("CertificateArchive")
-			}
-			return err
-		}
-	}
-
 	return nil
 }
 
-func (m *VaultItem) validateIsSensitive(formats strfmt.Registry) error {
+func (m *VaultItem) validateFileInfo(formats strfmt.Registry) error {
 
-	if err := validate.Required("IsSensitive", "body", m.IsSensitive); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *VaultItem) validateVaultItemGUID(formats strfmt.Registry) error {
-
-	if err := validate.Required("VaultItemGuid", "body", m.VaultItemGUID); err != nil {
-		return err
+	if swag.IsZero(m.FileInfo) { // not required
+		return nil
 	}
 
 	return nil
 }
 
 func (m *VaultItem) validateVaultItemType(formats strfmt.Registry) error {
-
-	if err := m.VaultItemType.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("VaultItemType")
-		}
-		return err
-	}
 
 	return nil
 }

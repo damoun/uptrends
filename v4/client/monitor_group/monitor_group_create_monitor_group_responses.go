@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // MonitorGroupCreateMonitorGroupReader is a Reader for the MonitorGroupCreateMonitorGroup structure.
@@ -38,7 +37,7 @@ func (o *MonitorGroupCreateMonitorGroupReader) ReadResponse(response runtime.Cli
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -49,7 +48,7 @@ func NewMonitorGroupCreateMonitorGroupCreated() *MonitorGroupCreateMonitorGroupC
 
 /*MonitorGroupCreateMonitorGroupCreated handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully.
 */
 type MonitorGroupCreateMonitorGroupCreated struct {
 	Payload *models.MonitorGroup
@@ -85,20 +84,20 @@ func NewMonitorGroupCreateMonitorGroupBadRequest() *MonitorGroupCreateMonitorGro
 The request failed.
 */
 type MonitorGroupCreateMonitorGroupBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGroupCreateMonitorGroupBadRequest) Error() string {
 	return fmt.Sprintf("[POST /MonitorGroup][%d] monitorGroupCreateMonitorGroupBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *MonitorGroupCreateMonitorGroupBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGroupCreateMonitorGroupBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGroupCreateMonitorGroupBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

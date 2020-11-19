@@ -6,27 +6,26 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // MonitorGroup monitor group
+//
 // swagger:model MonitorGroup
 type MonitorGroup struct {
 
-	// description
+	// The descriptive name of this probe group
 	Description string `json:"Description,omitempty"`
 
-	// is all
+	// Indicates whether this is the default group for all probes
 	// Required: true
 	IsAll *bool `json:"IsAll"`
 
-	// monitor group Guid
-	// Required: true
-	MonitorGroupGUID *string `json:"MonitorGroupGuid"`
+	// The unique identifier of this monitor group
+	MonitorGroupGUID string `json:"MonitorGroupGuid,omitempty"`
 }
 
 // Validate validates this monitor group
@@ -34,10 +33,6 @@ func (m *MonitorGroup) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateIsAll(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateMonitorGroupGUID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -50,15 +45,6 @@ func (m *MonitorGroup) Validate(formats strfmt.Registry) error {
 func (m *MonitorGroup) validateIsAll(formats strfmt.Registry) error {
 
 	if err := validate.Required("IsAll", "body", m.IsAll); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *MonitorGroup) validateMonitorGroupGUID(formats strfmt.Registry) error {
-
-	if err := validate.Required("MonitorGroupGuid", "body", m.MonitorGroupGUID); err != nil {
 		return err
 	}
 

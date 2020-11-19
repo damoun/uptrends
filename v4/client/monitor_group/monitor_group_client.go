@@ -9,12 +9,11 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new monitor group API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -26,8 +25,39 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientService is the interface for Client methods
+type ClientService interface {
+	MonitorGroupAddMaintenancePeriodToAllMembers(params *MonitorGroupAddMaintenancePeriodToAllMembersParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupAddMaintenancePeriodToAllMembersNoContent, error)
+
+	MonitorGroupAddMonitorToMonitorGroup(params *MonitorGroupAddMonitorToMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupAddMonitorToMonitorGroupCreated, error)
+
+	MonitorGroupCreateMonitorGroup(params *MonitorGroupCreateMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupCreateMonitorGroupCreated, error)
+
+	MonitorGroupDeleteMonitorGroup(params *MonitorGroupDeleteMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupDeleteMonitorGroupNoContent, error)
+
+	MonitorGroupGetAllMonitorGroups(params *MonitorGroupGetAllMonitorGroupsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupGetAllMonitorGroupsOK, error)
+
+	MonitorGroupGetMonitorGroup(params *MonitorGroupGetMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupGetMonitorGroupOK, error)
+
+	MonitorGroupGetMonitorGroupMembers(params *MonitorGroupGetMonitorGroupMembersParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupGetMonitorGroupMembersOK, error)
+
+	MonitorGroupRemoveMonitorFromMonitorGroup(params *MonitorGroupRemoveMonitorFromMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupRemoveMonitorFromMonitorGroupNoContent, error)
+
+	MonitorGroupStartAllMonitorAlertsInGroup(params *MonitorGroupStartAllMonitorAlertsInGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupStartAllMonitorAlertsInGroupNoContent, error)
+
+	MonitorGroupStartAllMonitorsInGroup(params *MonitorGroupStartAllMonitorsInGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupStartAllMonitorsInGroupNoContent, error)
+
+	MonitorGroupStopAllMonitorAlertsInGroup(params *MonitorGroupStopAllMonitorAlertsInGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupStopAllMonitorAlertsInGroupNoContent, error)
+
+	MonitorGroupStopAllMonitorsInGroup(params *MonitorGroupStopAllMonitorsInGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupStopAllMonitorsInGroupNoContent, error)
+
+	MonitorGroupUpdateMonitorGroup(params *MonitorGroupUpdateMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupUpdateMonitorGroupNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
+}
+
 /*
-MonitorGroupAddMaintenancePeriodToAllMembers adds the provided maintenance period to all monitors in the group specified
+  MonitorGroupAddMaintenancePeriodToAllMembers adds the provided maintenance period to all monitors in the group specified
 */
 func (a *Client) MonitorGroupAddMaintenancePeriodToAllMembers(params *MonitorGroupAddMaintenancePeriodToAllMembersParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupAddMaintenancePeriodToAllMembersNoContent, error) {
 	// TODO: Validate the params before sending
@@ -62,7 +92,7 @@ func (a *Client) MonitorGroupAddMaintenancePeriodToAllMembers(params *MonitorGro
 }
 
 /*
-MonitorGroupAddMonitorToMonitorGroup adds the specified monitor to the monitor group
+  MonitorGroupAddMonitorToMonitorGroup adds the specified monitor to the monitor group
 */
 func (a *Client) MonitorGroupAddMonitorToMonitorGroup(params *MonitorGroupAddMonitorToMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupAddMonitorToMonitorGroupCreated, error) {
 	// TODO: Validate the params before sending
@@ -97,7 +127,7 @@ func (a *Client) MonitorGroupAddMonitorToMonitorGroup(params *MonitorGroupAddMon
 }
 
 /*
-MonitorGroupCreateMonitorGroup creates a new monitor group
+  MonitorGroupCreateMonitorGroup creates a new monitor group
 */
 func (a *Client) MonitorGroupCreateMonitorGroup(params *MonitorGroupCreateMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupCreateMonitorGroupCreated, error) {
 	// TODO: Validate the params before sending
@@ -132,7 +162,7 @@ func (a *Client) MonitorGroupCreateMonitorGroup(params *MonitorGroupCreateMonito
 }
 
 /*
-MonitorGroupDeleteMonitorGroup deletes the specified monitor group
+  MonitorGroupDeleteMonitorGroup deletes the specified monitor group
 */
 func (a *Client) MonitorGroupDeleteMonitorGroup(params *MonitorGroupDeleteMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupDeleteMonitorGroupNoContent, error) {
 	// TODO: Validate the params before sending
@@ -167,7 +197,7 @@ func (a *Client) MonitorGroupDeleteMonitorGroup(params *MonitorGroupDeleteMonito
 }
 
 /*
-MonitorGroupGetAllMonitorGroups gets all monitor groups
+  MonitorGroupGetAllMonitorGroups gets all monitor groups
 */
 func (a *Client) MonitorGroupGetAllMonitorGroups(params *MonitorGroupGetAllMonitorGroupsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupGetAllMonitorGroupsOK, error) {
 	// TODO: Validate the params before sending
@@ -202,7 +232,7 @@ func (a *Client) MonitorGroupGetAllMonitorGroups(params *MonitorGroupGetAllMonit
 }
 
 /*
-MonitorGroupGetMonitorGroup gets the details of a monitor group
+  MonitorGroupGetMonitorGroup gets the details of a monitor group
 */
 func (a *Client) MonitorGroupGetMonitorGroup(params *MonitorGroupGetMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupGetMonitorGroupOK, error) {
 	// TODO: Validate the params before sending
@@ -237,7 +267,7 @@ func (a *Client) MonitorGroupGetMonitorGroup(params *MonitorGroupGetMonitorGroup
 }
 
 /*
-MonitorGroupGetMonitorGroupMembers gets a list of all members of a monitor group
+  MonitorGroupGetMonitorGroupMembers gets a list of all members of a monitor group
 */
 func (a *Client) MonitorGroupGetMonitorGroupMembers(params *MonitorGroupGetMonitorGroupMembersParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupGetMonitorGroupMembersOK, error) {
 	// TODO: Validate the params before sending
@@ -272,7 +302,7 @@ func (a *Client) MonitorGroupGetMonitorGroupMembers(params *MonitorGroupGetMonit
 }
 
 /*
-MonitorGroupRemoveMonitorFromMonitorGroup removes the specified monitor from the monitor group
+  MonitorGroupRemoveMonitorFromMonitorGroup removes the specified monitor from the monitor group
 */
 func (a *Client) MonitorGroupRemoveMonitorFromMonitorGroup(params *MonitorGroupRemoveMonitorFromMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupRemoveMonitorFromMonitorGroupNoContent, error) {
 	// TODO: Validate the params before sending
@@ -307,7 +337,7 @@ func (a *Client) MonitorGroupRemoveMonitorFromMonitorGroup(params *MonitorGroupR
 }
 
 /*
-MonitorGroupStartAllMonitorAlertsInGroup starts alerting for all monitors that are a member of the monitor group specified by the monitor group GUID
+  MonitorGroupStartAllMonitorAlertsInGroup starts alerting for all monitors that are a member of the monitor group specified by the monitor group GUID
 */
 func (a *Client) MonitorGroupStartAllMonitorAlertsInGroup(params *MonitorGroupStartAllMonitorAlertsInGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupStartAllMonitorAlertsInGroupNoContent, error) {
 	// TODO: Validate the params before sending
@@ -342,7 +372,7 @@ func (a *Client) MonitorGroupStartAllMonitorAlertsInGroup(params *MonitorGroupSt
 }
 
 /*
-MonitorGroupStartAllMonitorsInGroup starts all monitors that are a member of the monitor group specified by the monitor group GUID
+  MonitorGroupStartAllMonitorsInGroup starts all monitors that are a member of the monitor group specified by the monitor group GUID
 */
 func (a *Client) MonitorGroupStartAllMonitorsInGroup(params *MonitorGroupStartAllMonitorsInGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupStartAllMonitorsInGroupNoContent, error) {
 	// TODO: Validate the params before sending
@@ -377,7 +407,7 @@ func (a *Client) MonitorGroupStartAllMonitorsInGroup(params *MonitorGroupStartAl
 }
 
 /*
-MonitorGroupStopAllMonitorAlertsInGroup stops alerting for all monitors that are a member of the monitor group specified by the monitor group GUID
+  MonitorGroupStopAllMonitorAlertsInGroup stops alerting for all monitors that are a member of the monitor group specified by the monitor group GUID
 */
 func (a *Client) MonitorGroupStopAllMonitorAlertsInGroup(params *MonitorGroupStopAllMonitorAlertsInGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupStopAllMonitorAlertsInGroupNoContent, error) {
 	// TODO: Validate the params before sending
@@ -412,7 +442,7 @@ func (a *Client) MonitorGroupStopAllMonitorAlertsInGroup(params *MonitorGroupSto
 }
 
 /*
-MonitorGroupStopAllMonitorsInGroup stops all monitors that are a member of the monitor group specified by the monitor group GUID
+  MonitorGroupStopAllMonitorsInGroup stops all monitors that are a member of the monitor group specified by the monitor group GUID
 */
 func (a *Client) MonitorGroupStopAllMonitorsInGroup(params *MonitorGroupStopAllMonitorsInGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupStopAllMonitorsInGroupNoContent, error) {
 	// TODO: Validate the params before sending
@@ -447,7 +477,7 @@ func (a *Client) MonitorGroupStopAllMonitorsInGroup(params *MonitorGroupStopAllM
 }
 
 /*
-MonitorGroupUpdateMonitorGroup updates the monitor group with the Guid specified
+  MonitorGroupUpdateMonitorGroup updates the monitor group with the Guid specified
 */
 func (a *Client) MonitorGroupUpdateMonitorGroup(params *MonitorGroupUpdateMonitorGroupParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGroupUpdateMonitorGroupNoContent, error) {
 	// TODO: Validate the params before sending

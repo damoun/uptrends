@@ -8,13 +8,13 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // ScheduleMode schedule mode
+//
 // swagger:model ScheduleMode
 type ScheduleMode string
 
@@ -47,7 +47,7 @@ func init() {
 }
 
 func (m ScheduleMode) validateScheduleModeEnum(path, location string, value ScheduleMode) error {
-	if err := validate.Enum(path, location, value, scheduleModeEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, scheduleModeEnum, true); err != nil {
 		return err
 	}
 	return nil

@@ -6,14 +6,14 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // MonitorCheckAttributes Monitor check attributes
+//
 // swagger:model MonitorCheckAttributes
 type MonitorCheckAttributes struct {
 
@@ -44,6 +44,13 @@ type MonitorCheckAttributes struct {
 	// The HTTP status code returned (if applicable)
 	HTTPStatusCode int32 `json:"HttpStatusCode,omitempty"`
 
+	// Is this a master concurrent check record
+	IsConcurrentCheck bool `json:"IsConcurrentCheck,omitempty"`
+
+	// This is a partial concurrent measurement, part of a concurrent check
+	// Required: true
+	IsPartialCheck *bool `json:"IsPartialCheck"`
+
 	// Monitor identifier
 	// Required: true
 	MonitorGUID *string `json:"MonitorGuid"`
@@ -56,8 +63,7 @@ type MonitorCheckAttributes struct {
 	ResolvedIPAddress string `json:"ResolvedIpAddress,omitempty"`
 
 	// The Id of the Uptrends checkpoint server that performed this check.
-	// Required: true
-	ServerID *int32 `json:"ServerId"`
+	ServerID int32 `json:"ServerId,omitempty"`
 
 	// Did the check come from a staging monitor?
 	// Required: true
@@ -96,15 +102,15 @@ func (m *MonitorCheckAttributes) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateIsPartialCheck(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateMonitorGUID(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateResolveTime(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateServerID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -158,6 +164,15 @@ func (m *MonitorCheckAttributes) validateErrorLevel(formats strfmt.Registry) err
 	return nil
 }
 
+func (m *MonitorCheckAttributes) validateIsPartialCheck(formats strfmt.Registry) error {
+
+	if err := validate.Required("IsPartialCheck", "body", m.IsPartialCheck); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *MonitorCheckAttributes) validateMonitorGUID(formats strfmt.Registry) error {
 
 	if err := validate.Required("MonitorGuid", "body", m.MonitorGUID); err != nil {
@@ -170,15 +185,6 @@ func (m *MonitorCheckAttributes) validateMonitorGUID(formats strfmt.Registry) er
 func (m *MonitorCheckAttributes) validateResolveTime(formats strfmt.Registry) error {
 
 	if err := validate.Required("ResolveTime", "body", m.ResolveTime); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *MonitorCheckAttributes) validateServerID(formats strfmt.Registry) error {
-
-	if err := validate.Required("ServerId", "body", m.ServerID); err != nil {
 		return err
 	}
 

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // OperatorDeleteDutyScheduleFromOperatorReader is a Reader for the OperatorDeleteDutyScheduleFromOperator structure.
@@ -44,7 +43,7 @@ func (o *OperatorDeleteDutyScheduleFromOperatorReader) ReadResponse(response run
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewOperatorDeleteDutyScheduleFromOperatorNoContent() *OperatorDeleteDutySch
 
 /*OperatorDeleteDutyScheduleFromOperatorNoContent handles this case with default header values.
 
-The duty period has been removed. No content is returned.
+The request completed successfully. No content is returned.
 */
 type OperatorDeleteDutyScheduleFromOperatorNoContent struct {
 }
@@ -79,20 +78,20 @@ func NewOperatorDeleteDutyScheduleFromOperatorBadRequest() *OperatorDeleteDutySc
 The request failed.
 */
 type OperatorDeleteDutyScheduleFromOperatorBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorDeleteDutyScheduleFromOperatorBadRequest) Error() string {
 	return fmt.Sprintf("[DELETE /Operator/{operatorGuid}/DutySchedule/{dutyScheduleId}][%d] operatorDeleteDutyScheduleFromOperatorBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *OperatorDeleteDutyScheduleFromOperatorBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *OperatorDeleteDutyScheduleFromOperatorBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorDeleteDutyScheduleFromOperatorBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -112,20 +111,20 @@ func NewOperatorDeleteDutyScheduleFromOperatorNotFound() *OperatorDeleteDutySche
 The specified operator or duty schedule item does not exist.
 */
 type OperatorDeleteDutyScheduleFromOperatorNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorDeleteDutyScheduleFromOperatorNotFound) Error() string {
 	return fmt.Sprintf("[DELETE /Operator/{operatorGuid}/DutySchedule/{dutyScheduleId}][%d] operatorDeleteDutyScheduleFromOperatorNotFound  %+v", 404, o.Payload)
 }
 
-func (o *OperatorDeleteDutyScheduleFromOperatorNotFound) GetPayload() *models.APIMessageInfo {
+func (o *OperatorDeleteDutyScheduleFromOperatorNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorDeleteDutyScheduleFromOperatorNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

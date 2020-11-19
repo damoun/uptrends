@@ -9,12 +9,11 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new monitor API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -26,8 +25,39 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientService is the interface for Client methods
+type ClientService interface {
+	MonitorCleanupMaintenancePeriods(params *MonitorCleanupMaintenancePeriodsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCleanupMaintenancePeriodsNoContent, error)
+
+	MonitorCloneMonitor(params *MonitorCloneMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCloneMonitorCreated, error)
+
+	MonitorCreateMaintenancePeriodForMonitor(params *MonitorCreateMaintenancePeriodForMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCreateMaintenancePeriodForMonitorCreated, error)
+
+	MonitorDeleteMaintenancePeriodFromMonitor(params *MonitorDeleteMaintenancePeriodFromMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorDeleteMaintenancePeriodFromMonitorNoContent, error)
+
+	MonitorDeleteMonitor(params *MonitorDeleteMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorDeleteMonitorNoContent, error)
+
+	MonitorGetAllMaintenancePeriodsForMonitor(params *MonitorGetAllMaintenancePeriodsForMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGetAllMaintenancePeriodsForMonitorOK, error)
+
+	MonitorGetMonitor(params *MonitorGetMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGetMonitorOK, error)
+
+	MonitorGetMonitorGroups(params *MonitorGetMonitorGroupsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGetMonitorGroupsOK, error)
+
+	MonitorGetMonitors(params *MonitorGetMonitorsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGetMonitorsOK, error)
+
+	MonitorPatchMonitor(params *MonitorPatchMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorPatchMonitorNoContent, error)
+
+	MonitorPostMonitor(params *MonitorPostMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorPostMonitorCreated, error)
+
+	MonitorPutMonitor(params *MonitorPutMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorPutMonitorNoContent, error)
+
+	MonitorUpdateMaintenancePeriodForMonitor(params *MonitorUpdateMaintenancePeriodForMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorUpdateMaintenancePeriodForMonitorNoContent, error)
+
+	SetTransport(transport runtime.ClientTransport)
+}
+
 /*
-MonitorCleanupMaintenancePeriods clears out all one time maintenance periods for the specified monitor older than the specified date
+  MonitorCleanupMaintenancePeriods clears out all one time maintenance periods for the specified monitor older than the specified date
 */
 func (a *Client) MonitorCleanupMaintenancePeriods(params *MonitorCleanupMaintenancePeriodsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCleanupMaintenancePeriodsNoContent, error) {
 	// TODO: Validate the params before sending
@@ -62,9 +92,9 @@ func (a *Client) MonitorCleanupMaintenancePeriods(params *MonitorCleanupMaintena
 }
 
 /*
-MonitorCloneMonitor creates a clone duplicate of the specified monitor
+  MonitorCloneMonitor creates a clone duplicate of the specified monitor
 
-Upon creation, the new monitor will be inactive. This allows you to make the necessary changes before you activate it. All other settings will be transferred to the new monitor as-is.
+  Upon creation, the new monitor will be inactive. This allows you to make the necessary changes before you activate it. All other settings will be transferred to the new monitor as-is.
 */
 func (a *Client) MonitorCloneMonitor(params *MonitorCloneMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCloneMonitorCreated, error) {
 	// TODO: Validate the params before sending
@@ -99,7 +129,7 @@ func (a *Client) MonitorCloneMonitor(params *MonitorCloneMonitorParams, authInfo
 }
 
 /*
-MonitorCreateMaintenancePeriodForMonitor saves the new maintenance period provided for the specified monitor
+  MonitorCreateMaintenancePeriodForMonitor saves the new maintenance period provided for the specified monitor
 */
 func (a *Client) MonitorCreateMaintenancePeriodForMonitor(params *MonitorCreateMaintenancePeriodForMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorCreateMaintenancePeriodForMonitorCreated, error) {
 	// TODO: Validate the params before sending
@@ -134,7 +164,7 @@ func (a *Client) MonitorCreateMaintenancePeriodForMonitor(params *MonitorCreateM
 }
 
 /*
-MonitorDeleteMaintenancePeriodFromMonitor deletes the specified maintenance period from the specified monitor
+  MonitorDeleteMaintenancePeriodFromMonitor deletes the specified maintenance period from the specified monitor
 */
 func (a *Client) MonitorDeleteMaintenancePeriodFromMonitor(params *MonitorDeleteMaintenancePeriodFromMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorDeleteMaintenancePeriodFromMonitorNoContent, error) {
 	// TODO: Validate the params before sending
@@ -169,7 +199,7 @@ func (a *Client) MonitorDeleteMaintenancePeriodFromMonitor(params *MonitorDelete
 }
 
 /*
-MonitorDeleteMonitor deletes the specified monitor
+  MonitorDeleteMonitor deletes the specified monitor
 */
 func (a *Client) MonitorDeleteMonitor(params *MonitorDeleteMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorDeleteMonitorNoContent, error) {
 	// TODO: Validate the params before sending
@@ -204,7 +234,7 @@ func (a *Client) MonitorDeleteMonitor(params *MonitorDeleteMonitorParams, authIn
 }
 
 /*
-MonitorGetAllMaintenancePeriodsForMonitor finds all maintenance periods for a monitor
+  MonitorGetAllMaintenancePeriodsForMonitor finds all maintenance periods for a monitor
 */
 func (a *Client) MonitorGetAllMaintenancePeriodsForMonitor(params *MonitorGetAllMaintenancePeriodsForMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGetAllMaintenancePeriodsForMonitorOK, error) {
 	// TODO: Validate the params before sending
@@ -239,7 +269,7 @@ func (a *Client) MonitorGetAllMaintenancePeriodsForMonitor(params *MonitorGetAll
 }
 
 /*
-MonitorGetMonitor returns the definition of the specified monitor
+  MonitorGetMonitor returns the definition of the specified monitor
 */
 func (a *Client) MonitorGetMonitor(params *MonitorGetMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGetMonitorOK, error) {
 	// TODO: Validate the params before sending
@@ -274,9 +304,79 @@ func (a *Client) MonitorGetMonitor(params *MonitorGetMonitorParams, authInfo run
 }
 
 /*
-MonitorPatchMonitor partiallies updates the definition of the specified monitor
+  MonitorGetMonitorGroups returns the Guid of each monitor group where the specified monitor is a member of
+*/
+func (a *Client) MonitorGetMonitorGroups(params *MonitorGetMonitorGroupsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGetMonitorGroupsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewMonitorGetMonitorGroupsParams()
+	}
 
-This methods accepts parts of a monitor definition. We recommend retrieving the existing definition first (using the GET method). You can then process the changes you want to make and send back these changes only using this PATCH method.
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "Monitor_GetMonitorGroups",
+		Method:             "GET",
+		PathPattern:        "/Monitor/{monitorGuid}/MonitorGroup",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MonitorGetMonitorGroupsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*MonitorGetMonitorGroupsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for Monitor_GetMonitorGroups: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  MonitorGetMonitors returns the definition of all monitors available in the account
+*/
+func (a *Client) MonitorGetMonitors(params *MonitorGetMonitorsParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorGetMonitorsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewMonitorGetMonitorsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "Monitor_GetMonitors",
+		Method:             "GET",
+		PathPattern:        "/Monitor",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MonitorGetMonitorsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*MonitorGetMonitorsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for Monitor_GetMonitors: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  MonitorPatchMonitor partiallies updates the definition of the specified monitor
+
+  This methods accepts parts of a monitor definition. We recommend retrieving the existing definition first (using the GET method). You can then process the changes you want to make and send back these changes only using this PATCH method.
 */
 func (a *Client) MonitorPatchMonitor(params *MonitorPatchMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorPatchMonitorNoContent, error) {
 	// TODO: Validate the params before sending
@@ -311,9 +411,44 @@ func (a *Client) MonitorPatchMonitor(params *MonitorPatchMonitorParams, authInfo
 }
 
 /*
-MonitorPutMonitor updates the definition of the specified monitor
+  MonitorPostMonitor creates a new monitor
+*/
+func (a *Client) MonitorPostMonitor(params *MonitorPostMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorPostMonitorCreated, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewMonitorPostMonitorParams()
+	}
 
-This methods only accepts a complete monitor definition. We recommend retrieving the existing definition first (using the GET method). You can then process the changes you want to make and send back the updated definition using this PUT method.
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "Monitor_PostMonitor",
+		Method:             "POST",
+		PathPattern:        "/Monitor",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &MonitorPostMonitorReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*MonitorPostMonitorCreated)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for Monitor_PostMonitor: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  MonitorPutMonitor updates the definition of the specified monitor
+
+  This methods only accepts a complete monitor definition. We recommend retrieving the existing definition first (using the GET method). You can then process the changes you want to make and send back the updated definition using this PUT method.
 */
 func (a *Client) MonitorPutMonitor(params *MonitorPutMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorPutMonitorNoContent, error) {
 	// TODO: Validate the params before sending
@@ -348,7 +483,7 @@ func (a *Client) MonitorPutMonitor(params *MonitorPutMonitorParams, authInfo run
 }
 
 /*
-MonitorUpdateMaintenancePeriodForMonitor updates the specified maintenance schedule for the specified monitor
+  MonitorUpdateMaintenancePeriodForMonitor updates the specified maintenance schedule for the specified monitor
 */
 func (a *Client) MonitorUpdateMaintenancePeriodForMonitor(params *MonitorUpdateMaintenancePeriodForMonitorParams, authInfo runtime.ClientAuthInfoWriter) (*MonitorUpdateMaintenancePeriodForMonitorNoContent, error) {
 	// TODO: Validate the params before sending

@@ -6,55 +6,133 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"strconv"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // MsaDetailsResponse msa details response
+//
 // swagger:model MsaDetailsResponse
 type MsaDetailsResponse struct {
-	ResponseBaseOfHTTPEngineCheckDetails
-}
 
-// UnmarshalJSON unmarshals this object from a JSON structure
-func (m *MsaDetailsResponse) UnmarshalJSON(raw []byte) error {
-	// AO0
-	var aO0 ResponseBaseOfHTTPEngineCheckDetails
-	if err := swag.ReadJSON(raw, &aO0); err != nil {
-		return err
-	}
-	m.ResponseBaseOfHTTPEngineCheckDetails = aO0
+	// data
+	Data *HTTPEngineCheckDetails `json:"Data,omitempty"`
 
-	return nil
-}
+	// links
+	Links *LinksData `json:"Links,omitempty"`
 
-// MarshalJSON marshals this object to a JSON structure
-func (m MsaDetailsResponse) MarshalJSON() ([]byte, error) {
-	_parts := make([][]byte, 0, 1)
+	// meta
+	Meta *MetaData `json:"Meta,omitempty"`
 
-	aO0, err := swag.WriteJSON(m.ResponseBaseOfHTTPEngineCheckDetails)
-	if err != nil {
-		return nil, err
-	}
-	_parts = append(_parts, aO0)
-
-	return swag.ConcatJSON(_parts...), nil
+	// relationships
+	Relationships []*RelationObject `json:"Relationships"`
 }
 
 // Validate validates this msa details response
 func (m *MsaDetailsResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	// validation for a type composition with ResponseBaseOfHTTPEngineCheckDetails
-	if err := m.ResponseBaseOfHTTPEngineCheckDetails.Validate(formats); err != nil {
+	if err := m.validateData(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateLinks(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMeta(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRelationships(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *MsaDetailsResponse) validateData(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Data) { // not required
+		return nil
+	}
+
+	if m.Data != nil {
+		if err := m.Data.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("Data")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *MsaDetailsResponse) validateLinks(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Links) { // not required
+		return nil
+	}
+
+	if m.Links != nil {
+		if err := m.Links.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("Links")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *MsaDetailsResponse) validateMeta(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Meta) { // not required
+		return nil
+	}
+
+	if m.Meta != nil {
+		if err := m.Meta.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("Meta")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *MsaDetailsResponse) validateRelationships(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Relationships) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Relationships); i++ {
+		if swag.IsZero(m.Relationships[i]) { // not required
+			continue
+		}
+
+		if m.Relationships[i] != nil {
+			if err := m.Relationships[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("Relationships" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

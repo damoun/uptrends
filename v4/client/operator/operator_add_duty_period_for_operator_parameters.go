@@ -13,10 +13,9 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // NewOperatorAddDutyPeriodForOperatorParams creates a new OperatorAddDutyPeriodForOperatorParams object
@@ -64,7 +63,7 @@ for the operator add duty period for operator operation typically these are writ
 type OperatorAddDutyPeriodForOperatorParams struct {
 
 	/*OperatorGUID
-	  The Guid of the operator to add the duty period to
+	  The Guid of the operator to add the duty schedule to
 
 	*/
 	OperatorGUID string

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // CheckpointServerGetServerReader is a Reader for the CheckpointServerGetServer structure.
@@ -38,7 +37,7 @@ func (o *CheckpointServerGetServerReader) ReadResponse(response runtime.ClientRe
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -49,23 +48,23 @@ func NewCheckpointServerGetServerOK() *CheckpointServerGetServerOK {
 
 /*CheckpointServerGetServerOK handles this case with default header values.
 
-CheckpointServerGetServerOK checkpoint server get server o k
+The request completed successfully.
 */
 type CheckpointServerGetServerOK struct {
-	Payload *models.CheckpointServerResponse
+	Payload *models.CheckpoinServerResponse
 }
 
 func (o *CheckpointServerGetServerOK) Error() string {
 	return fmt.Sprintf("[GET /Checkpoint/Server/{serverId}][%d] checkpointServerGetServerOK  %+v", 200, o.Payload)
 }
 
-func (o *CheckpointServerGetServerOK) GetPayload() *models.CheckpointServerResponse {
+func (o *CheckpointServerGetServerOK) GetPayload() *models.CheckpoinServerResponse {
 	return o.Payload
 }
 
 func (o *CheckpointServerGetServerOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.CheckpointServerResponse)
+	o.Payload = new(models.CheckpoinServerResponse)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -85,20 +84,20 @@ func NewCheckpointServerGetServerBadRequest() *CheckpointServerGetServerBadReque
 The request failed.
 */
 type CheckpointServerGetServerBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *CheckpointServerGetServerBadRequest) Error() string {
 	return fmt.Sprintf("[GET /Checkpoint/Server/{serverId}][%d] checkpointServerGetServerBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *CheckpointServerGetServerBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *CheckpointServerGetServerBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *CheckpointServerGetServerBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

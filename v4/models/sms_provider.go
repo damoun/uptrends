@@ -8,13 +8,13 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // SmsProvider sms provider
+//
 // swagger:model SmsProvider
 type SmsProvider string
 
@@ -50,7 +50,7 @@ func init() {
 }
 
 func (m SmsProvider) validateSmsProviderEnum(path, location string, value SmsProvider) error {
-	if err := validate.Enum(path, location, value, smsProviderEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, smsProviderEnum, true); err != nil {
 		return err
 	}
 	return nil

@@ -6,55 +6,70 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"strconv"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // RelationObject relation object
+//
 // swagger:model RelationObject
 type RelationObject struct {
-	ResourceObject4
-}
 
-// UnmarshalJSON unmarshals this object from a JSON structure
-func (m *RelationObject) UnmarshalJSON(raw []byte) error {
-	// AO0
-	var aO0 ResourceObject4
-	if err := swag.ReadJSON(raw, &aO0); err != nil {
-		return err
-	}
-	m.ResourceObject4 = aO0
+	// attributes
+	Attributes interface{} `json:"Attributes,omitempty"`
 
-	return nil
-}
+	// Id
+	ID interface{} `json:"Id,omitempty"`
 
-// MarshalJSON marshals this object to a JSON structure
-func (m RelationObject) MarshalJSON() ([]byte, error) {
-	_parts := make([][]byte, 0, 1)
+	// links
+	Links map[string]string `json:"Links,omitempty"`
 
-	aO0, err := swag.WriteJSON(m.ResourceObject4)
-	if err != nil {
-		return nil, err
-	}
-	_parts = append(_parts, aO0)
+	// relationships
+	Relationships []*RelationObject `json:"Relationships"`
 
-	return swag.ConcatJSON(_parts...), nil
+	// type
+	Type string `json:"Type,omitempty"`
 }
 
 // Validate validates this relation object
 func (m *RelationObject) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	// validation for a type composition with ResourceObject4
-	if err := m.ResourceObject4.Validate(formats); err != nil {
+	if err := m.validateRelationships(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *RelationObject) validateRelationships(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Relationships) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Relationships); i++ {
+		if swag.IsZero(m.Relationships[i]) { // not required
+			continue
+		}
+
+		if m.Relationships[i] != nil {
+			if err := m.Relationships[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("Relationships" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

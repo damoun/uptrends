@@ -9,12 +9,11 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new miscellaneous API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -26,8 +25,19 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientService is the interface for Client methods
+type ClientService interface {
+	MiscellaneousGetAllOutgoingPhoneNumbers(params *MiscellaneousGetAllOutgoingPhoneNumbersParams, authInfo runtime.ClientAuthInfoWriter) (*MiscellaneousGetAllOutgoingPhoneNumbersOK, error)
+
+	MiscellaneousGetAllTimezones(params *MiscellaneousGetAllTimezonesParams, authInfo runtime.ClientAuthInfoWriter) (*MiscellaneousGetAllTimezonesOK, error)
+
+	MiscellaneousGetTimezoneByID(params *MiscellaneousGetTimezoneByIDParams, authInfo runtime.ClientAuthInfoWriter) (*MiscellaneousGetTimezoneByIDOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
+}
+
 /*
-MiscellaneousGetAllOutgoingPhoneNumbers gets a list of all outgoing phone numbers available
+  MiscellaneousGetAllOutgoingPhoneNumbers gets a list of all outgoing phone numbers available
 */
 func (a *Client) MiscellaneousGetAllOutgoingPhoneNumbers(params *MiscellaneousGetAllOutgoingPhoneNumbersParams, authInfo runtime.ClientAuthInfoWriter) (*MiscellaneousGetAllOutgoingPhoneNumbersOK, error) {
 	// TODO: Validate the params before sending
@@ -62,7 +72,7 @@ func (a *Client) MiscellaneousGetAllOutgoingPhoneNumbers(params *MiscellaneousGe
 }
 
 /*
-MiscellaneousGetAllTimezones gets all timezones available
+  MiscellaneousGetAllTimezones gets all timezones available
 */
 func (a *Client) MiscellaneousGetAllTimezones(params *MiscellaneousGetAllTimezonesParams, authInfo runtime.ClientAuthInfoWriter) (*MiscellaneousGetAllTimezonesOK, error) {
 	// TODO: Validate the params before sending
@@ -97,7 +107,7 @@ func (a *Client) MiscellaneousGetAllTimezones(params *MiscellaneousGetAllTimezon
 }
 
 /*
-MiscellaneousGetTimezoneByID gets the timezone with the specified Id
+  MiscellaneousGetTimezoneByID gets the timezone with the specified Id
 */
 func (a *Client) MiscellaneousGetTimezoneByID(params *MiscellaneousGetTimezoneByIDParams, authInfo runtime.ClientAuthInfoWriter) (*MiscellaneousGetTimezoneByIDOK, error) {
 	// TODO: Validate the params before sending

@@ -6,82 +6,57 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"strconv"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // MonitorCheckResponse Response of the MonitorCheck endpoint
+//
 // swagger:model MonitorCheckResponse
 type MonitorCheckResponse struct {
-	ResponseBaseOfListOfMonitorCheck
 
 	// Cursors can be used to navigate the dataset in a fixed manner
 	Cursors struct {
 		CursorsData
 	} `json:"Cursors,omitempty"`
-}
 
-// UnmarshalJSON unmarshals this object from a JSON structure
-func (m *MonitorCheckResponse) UnmarshalJSON(raw []byte) error {
-	// AO0
-	var aO0 ResponseBaseOfListOfMonitorCheck
-	if err := swag.ReadJSON(raw, &aO0); err != nil {
-		return err
-	}
-	m.ResponseBaseOfListOfMonitorCheck = aO0
+	// data
+	Data []*MonitorCheck `json:"Data"`
 
-	// now for regular properties
-	var propsMonitorCheckResponse struct {
-		Cursors struct {
-			CursorsData
-		} `json:"Cursors,omitempty"`
-	}
-	if err := swag.ReadJSON(raw, &propsMonitorCheckResponse); err != nil {
-		return err
-	}
-	m.Cursors = propsMonitorCheckResponse.Cursors
+	// links
+	Links *LinksData `json:"Links,omitempty"`
 
-	return nil
-}
+	// meta
+	Meta *MetaData `json:"Meta,omitempty"`
 
-// MarshalJSON marshals this object to a JSON structure
-func (m MonitorCheckResponse) MarshalJSON() ([]byte, error) {
-	_parts := make([][]byte, 0, 1)
-
-	aO0, err := swag.WriteJSON(m.ResponseBaseOfListOfMonitorCheck)
-	if err != nil {
-		return nil, err
-	}
-	_parts = append(_parts, aO0)
-
-	// now for regular properties
-	var propsMonitorCheckResponse struct {
-		Cursors struct {
-			CursorsData
-		} `json:"Cursors,omitempty"`
-	}
-	propsMonitorCheckResponse.Cursors = m.Cursors
-
-	jsonDataPropsMonitorCheckResponse, errMonitorCheckResponse := swag.WriteJSON(propsMonitorCheckResponse)
-	if errMonitorCheckResponse != nil {
-		return nil, errMonitorCheckResponse
-	}
-	_parts = append(_parts, jsonDataPropsMonitorCheckResponse)
-	return swag.ConcatJSON(_parts...), nil
+	// relationships
+	Relationships []*RelationObject `json:"Relationships"`
 }
 
 // Validate validates this monitor check response
 func (m *MonitorCheckResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	// validation for a type composition with ResponseBaseOfListOfMonitorCheck
-	if err := m.ResponseBaseOfListOfMonitorCheck.Validate(formats); err != nil {
+	if err := m.validateCursors(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateCursors(formats); err != nil {
+	if err := m.validateData(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateLinks(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMeta(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateRelationships(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -95,6 +70,92 @@ func (m *MonitorCheckResponse) validateCursors(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Cursors) { // not required
 		return nil
+	}
+
+	return nil
+}
+
+func (m *MonitorCheckResponse) validateData(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Data) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Data); i++ {
+		if swag.IsZero(m.Data[i]) { // not required
+			continue
+		}
+
+		if m.Data[i] != nil {
+			if err := m.Data[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("Data" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *MonitorCheckResponse) validateLinks(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Links) { // not required
+		return nil
+	}
+
+	if m.Links != nil {
+		if err := m.Links.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("Links")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *MonitorCheckResponse) validateMeta(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Meta) { // not required
+		return nil
+	}
+
+	if m.Meta != nil {
+		if err := m.Meta.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("Meta")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *MonitorCheckResponse) validateRelationships(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Relationships) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Relationships); i++ {
+		if swag.IsZero(m.Relationships[i]) { // not required
+			continue
+		}
+
+		if m.Relationships[i] != nil {
+			if err := m.Relationships[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("Relationships" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
 	}
 
 	return nil

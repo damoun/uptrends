@@ -8,17 +8,26 @@ package client
 import (
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
+	"github.com/damoun/uptrends/v4/client/account"
+	"github.com/damoun/uptrends/v4/client/alert"
+	"github.com/damoun/uptrends/v4/client/alert_definition"
 	"github.com/damoun/uptrends/v4/client/checkpoint"
+	"github.com/damoun/uptrends/v4/client/dashboard"
+	"github.com/damoun/uptrends/v4/client/integration"
 	"github.com/damoun/uptrends/v4/client/miscellaneous"
 	"github.com/damoun/uptrends/v4/client/monitor"
 	"github.com/damoun/uptrends/v4/client/monitor_check"
 	"github.com/damoun/uptrends/v4/client/monitor_group"
 	"github.com/damoun/uptrends/v4/client/operator"
 	"github.com/damoun/uptrends/v4/client/operator_group"
+	"github.com/damoun/uptrends/v4/client/public_status_page"
 	"github.com/damoun/uptrends/v4/client/register"
+	"github.com/damoun/uptrends/v4/client/scheduled_report"
+	"github.com/damoun/uptrends/v4/client/sla"
+	"github.com/damoun/uptrends/v4/client/statistics"
+	"github.com/damoun/uptrends/v4/client/status"
 	"github.com/damoun/uptrends/v4/client/vault"
 )
 
@@ -64,25 +73,25 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *UptrendsAP
 
 	cli := new(UptrendsAPIV4)
 	cli.Transport = transport
-
+	cli.Account = account.New(transport, formats)
+	cli.Alert = alert.New(transport, formats)
+	cli.AlertDefinition = alert_definition.New(transport, formats)
 	cli.Checkpoint = checkpoint.New(transport, formats)
-
+	cli.Dashboard = dashboard.New(transport, formats)
+	cli.Integration = integration.New(transport, formats)
 	cli.Miscellaneous = miscellaneous.New(transport, formats)
-
 	cli.Monitor = monitor.New(transport, formats)
-
 	cli.MonitorCheck = monitor_check.New(transport, formats)
-
 	cli.MonitorGroup = monitor_group.New(transport, formats)
-
 	cli.Operator = operator.New(transport, formats)
-
 	cli.OperatorGroup = operator_group.New(transport, formats)
-
+	cli.PublicStatusPage = public_status_page.New(transport, formats)
 	cli.Register = register.New(transport, formats)
-
+	cli.ScheduledReport = scheduled_report.New(transport, formats)
+	cli.SLA = sla.New(transport, formats)
+	cli.Statistics = statistics.New(transport, formats)
+	cli.Status = status.New(transport, formats)
 	cli.Vault = vault.New(transport, formats)
-
 	return cli
 }
 
@@ -127,23 +136,43 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 
 // UptrendsAPIV4 is a client for uptrends API v4
 type UptrendsAPIV4 struct {
-	Checkpoint *checkpoint.Client
+	Account account.ClientService
 
-	Miscellaneous *miscellaneous.Client
+	Alert alert.ClientService
 
-	Monitor *monitor.Client
+	AlertDefinition alert_definition.ClientService
 
-	MonitorCheck *monitor_check.Client
+	Checkpoint checkpoint.ClientService
 
-	MonitorGroup *monitor_group.Client
+	Dashboard dashboard.ClientService
 
-	Operator *operator.Client
+	Integration integration.ClientService
 
-	OperatorGroup *operator_group.Client
+	Miscellaneous miscellaneous.ClientService
 
-	Register *register.Client
+	Monitor monitor.ClientService
 
-	Vault *vault.Client
+	MonitorCheck monitor_check.ClientService
+
+	MonitorGroup monitor_group.ClientService
+
+	Operator operator.ClientService
+
+	OperatorGroup operator_group.ClientService
+
+	PublicStatusPage public_status_page.ClientService
+
+	Register register.ClientService
+
+	ScheduledReport scheduled_report.ClientService
+
+	SLA sla.ClientService
+
+	Statistics statistics.ClientService
+
+	Status status.ClientService
+
+	Vault vault.ClientService
 
 	Transport runtime.ClientTransport
 }
@@ -151,23 +180,23 @@ type UptrendsAPIV4 struct {
 // SetTransport changes the transport on the client and all its subresources
 func (c *UptrendsAPIV4) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
-
+	c.Account.SetTransport(transport)
+	c.Alert.SetTransport(transport)
+	c.AlertDefinition.SetTransport(transport)
 	c.Checkpoint.SetTransport(transport)
-
+	c.Dashboard.SetTransport(transport)
+	c.Integration.SetTransport(transport)
 	c.Miscellaneous.SetTransport(transport)
-
 	c.Monitor.SetTransport(transport)
-
 	c.MonitorCheck.SetTransport(transport)
-
 	c.MonitorGroup.SetTransport(transport)
-
 	c.Operator.SetTransport(transport)
-
 	c.OperatorGroup.SetTransport(transport)
-
+	c.PublicStatusPage.SetTransport(transport)
 	c.Register.SetTransport(transport)
-
+	c.ScheduledReport.SetTransport(transport)
+	c.SLA.SetTransport(transport)
+	c.Statistics.SetTransport(transport)
+	c.Status.SetTransport(transport)
 	c.Vault.SetTransport(transport)
-
 }

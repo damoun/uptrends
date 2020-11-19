@@ -8,13 +8,13 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // APIComparisonType Api comparison type
+//
 // swagger:model ApiComparisonType
 type APIComparisonType string
 
@@ -65,7 +65,7 @@ func init() {
 }
 
 func (m APIComparisonType) validateAPIComparisonTypeEnum(path, location string, value APIComparisonType) error {
-	if err := validate.Enum(path, location, value, apiComparisonTypeEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, apiComparisonTypeEnum, true); err != nil {
 		return err
 	}
 	return nil

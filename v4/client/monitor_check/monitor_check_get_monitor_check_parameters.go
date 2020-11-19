@@ -13,23 +13,22 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewMonitorCheckGetMonitorCheckParams creates a new MonitorCheckGetMonitorCheckParams object
 // with the default values initialized.
 func NewMonitorCheckGetMonitorCheckParams() *MonitorCheckGetMonitorCheckParams {
 	var (
-		errorLevelDefault = string("NoError")
-		sortingDefault    = string("Ascending")
-		takeDefault       = int32(100)
+		presetPeriodDefault = string("Last24Hours")
+		sortingDefault      = string("Descending")
+		takeDefault         = int32(100)
 	)
 	return &MonitorCheckGetMonitorCheckParams{
-		ErrorLevel: &errorLevelDefault,
-		Sorting:    &sortingDefault,
-		Take:       &takeDefault,
+		PresetPeriod: &presetPeriodDefault,
+		Sorting:      &sortingDefault,
+		Take:         &takeDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -39,14 +38,14 @@ func NewMonitorCheckGetMonitorCheckParams() *MonitorCheckGetMonitorCheckParams {
 // with the default values initialized, and the ability to set a timeout on a request
 func NewMonitorCheckGetMonitorCheckParamsWithTimeout(timeout time.Duration) *MonitorCheckGetMonitorCheckParams {
 	var (
-		errorLevelDefault = string("NoError")
-		sortingDefault    = string("Ascending")
-		takeDefault       = int32(100)
+		presetPeriodDefault = string("Last24Hours")
+		sortingDefault      = string("Descending")
+		takeDefault         = int32(100)
 	)
 	return &MonitorCheckGetMonitorCheckParams{
-		ErrorLevel: &errorLevelDefault,
-		Sorting:    &sortingDefault,
-		Take:       &takeDefault,
+		PresetPeriod: &presetPeriodDefault,
+		Sorting:      &sortingDefault,
+		Take:         &takeDefault,
 
 		timeout: timeout,
 	}
@@ -56,14 +55,14 @@ func NewMonitorCheckGetMonitorCheckParamsWithTimeout(timeout time.Duration) *Mon
 // with the default values initialized, and the ability to set a context for a request
 func NewMonitorCheckGetMonitorCheckParamsWithContext(ctx context.Context) *MonitorCheckGetMonitorCheckParams {
 	var (
-		errorLevelDefault = string("NoError")
-		sortingDefault    = string("Ascending")
-		takeDefault       = int32(100)
+		presetPeriodDefault = string("Last24Hours")
+		sortingDefault      = string("Descending")
+		takeDefault         = int32(100)
 	)
 	return &MonitorCheckGetMonitorCheckParams{
-		ErrorLevel: &errorLevelDefault,
-		Sorting:    &sortingDefault,
-		Take:       &takeDefault,
+		PresetPeriod: &presetPeriodDefault,
+		Sorting:      &sortingDefault,
+		Take:         &takeDefault,
 
 		Context: ctx,
 	}
@@ -73,15 +72,15 @@ func NewMonitorCheckGetMonitorCheckParamsWithContext(ctx context.Context) *Monit
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewMonitorCheckGetMonitorCheckParamsWithHTTPClient(client *http.Client) *MonitorCheckGetMonitorCheckParams {
 	var (
-		errorLevelDefault = string("NoError")
-		sortingDefault    = string("Ascending")
-		takeDefault       = int32(100)
+		presetPeriodDefault = string("Last24Hours")
+		sortingDefault      = string("Descending")
+		takeDefault         = int32(100)
 	)
 	return &MonitorCheckGetMonitorCheckParams{
-		ErrorLevel: &errorLevelDefault,
-		Sorting:    &sortingDefault,
-		Take:       &takeDefault,
-		HTTPClient: client,
+		PresetPeriod: &presetPeriodDefault,
+		Sorting:      &sortingDefault,
+		Take:         &takeDefault,
+		HTTPClient:   client,
 	}
 }
 
@@ -96,7 +95,7 @@ type MonitorCheckGetMonitorCheckParams struct {
 	*/
 	Cursor *string
 	/*End
-	  The end of a custom period (can't be longer than 90 days)
+	  The end of a custom period
 
 	*/
 	End *strfmt.DateTime
@@ -105,31 +104,36 @@ type MonitorCheckGetMonitorCheckParams struct {
 
 	*/
 	ErrorLevel *string
-	/*MonitorGUID
-	  The Guid of the specified monitor.
+	/*PresetPeriod
+	  The requested time period.
 
 	*/
-	MonitorGUID string
-	/*Period
-	  The requested time period. (default = Last24Hours)
+	PresetPeriod *string
+	/*ShowPartialMeasurements
+	  Show partial measurements from concurrent monitors
 
 	*/
-	Period *string
+	ShowPartialMeasurements *bool
 	/*Sorting
-	  Sorting direction based on monitor check timestamp. (default = Descending)
+	  Sorting direction based on timestamp.
 
 	*/
 	Sorting *string
 	/*Start
-	  The start of a custom period (can't be used together with the period parameter)
+	  The start of a custom period (can't be used together with the PresetPeriod parameter)
 
 	*/
 	Start *strfmt.DateTime
 	/*Take
-	  The number of checks to return (default = 100, max = 100)
+	  The number of records to return (Max value = 100)
 
 	*/
 	Take *int32
+	/*MonitorGUID
+	  The Guid of the monitor to get monitor checks for.
+
+	*/
+	MonitorGUID string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -202,26 +206,26 @@ func (o *MonitorCheckGetMonitorCheckParams) SetErrorLevel(errorLevel *string) {
 	o.ErrorLevel = errorLevel
 }
 
-// WithMonitorGUID adds the monitorGUID to the monitor check get monitor check params
-func (o *MonitorCheckGetMonitorCheckParams) WithMonitorGUID(monitorGUID string) *MonitorCheckGetMonitorCheckParams {
-	o.SetMonitorGUID(monitorGUID)
+// WithPresetPeriod adds the presetPeriod to the monitor check get monitor check params
+func (o *MonitorCheckGetMonitorCheckParams) WithPresetPeriod(presetPeriod *string) *MonitorCheckGetMonitorCheckParams {
+	o.SetPresetPeriod(presetPeriod)
 	return o
 }
 
-// SetMonitorGUID adds the monitorGuid to the monitor check get monitor check params
-func (o *MonitorCheckGetMonitorCheckParams) SetMonitorGUID(monitorGUID string) {
-	o.MonitorGUID = monitorGUID
+// SetPresetPeriod adds the presetPeriod to the monitor check get monitor check params
+func (o *MonitorCheckGetMonitorCheckParams) SetPresetPeriod(presetPeriod *string) {
+	o.PresetPeriod = presetPeriod
 }
 
-// WithPeriod adds the period to the monitor check get monitor check params
-func (o *MonitorCheckGetMonitorCheckParams) WithPeriod(period *string) *MonitorCheckGetMonitorCheckParams {
-	o.SetPeriod(period)
+// WithShowPartialMeasurements adds the showPartialMeasurements to the monitor check get monitor check params
+func (o *MonitorCheckGetMonitorCheckParams) WithShowPartialMeasurements(showPartialMeasurements *bool) *MonitorCheckGetMonitorCheckParams {
+	o.SetShowPartialMeasurements(showPartialMeasurements)
 	return o
 }
 
-// SetPeriod adds the period to the monitor check get monitor check params
-func (o *MonitorCheckGetMonitorCheckParams) SetPeriod(period *string) {
-	o.Period = period
+// SetShowPartialMeasurements adds the showPartialMeasurements to the monitor check get monitor check params
+func (o *MonitorCheckGetMonitorCheckParams) SetShowPartialMeasurements(showPartialMeasurements *bool) {
+	o.ShowPartialMeasurements = showPartialMeasurements
 }
 
 // WithSorting adds the sorting to the monitor check get monitor check params
@@ -257,6 +261,17 @@ func (o *MonitorCheckGetMonitorCheckParams) SetTake(take *int32) {
 	o.Take = take
 }
 
+// WithMonitorGUID adds the monitorGUID to the monitor check get monitor check params
+func (o *MonitorCheckGetMonitorCheckParams) WithMonitorGUID(monitorGUID string) *MonitorCheckGetMonitorCheckParams {
+	o.SetMonitorGUID(monitorGUID)
+	return o
+}
+
+// SetMonitorGUID adds the monitorGuid to the monitor check get monitor check params
+func (o *MonitorCheckGetMonitorCheckParams) SetMonitorGUID(monitorGUID string) {
+	o.MonitorGUID = monitorGUID
+}
+
 // WriteToRequest writes these params to a swagger request
 func (o *MonitorCheckGetMonitorCheckParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -267,14 +282,14 @@ func (o *MonitorCheckGetMonitorCheckParams) WriteToRequest(r runtime.ClientReque
 
 	if o.Cursor != nil {
 
-		// query param cursor
+		// query param Cursor
 		var qrCursor string
 		if o.Cursor != nil {
 			qrCursor = *o.Cursor
 		}
 		qCursor := qrCursor
 		if qCursor != "" {
-			if err := r.SetQueryParam("cursor", qCursor); err != nil {
+			if err := r.SetQueryParam("Cursor", qCursor); err != nil {
 				return err
 			}
 		}
@@ -283,14 +298,14 @@ func (o *MonitorCheckGetMonitorCheckParams) WriteToRequest(r runtime.ClientReque
 
 	if o.End != nil {
 
-		// query param end
+		// query param End
 		var qrEnd strfmt.DateTime
 		if o.End != nil {
 			qrEnd = *o.End
 		}
 		qEnd := qrEnd.String()
 		if qEnd != "" {
-			if err := r.SetQueryParam("end", qEnd); err != nil {
+			if err := r.SetQueryParam("End", qEnd); err != nil {
 				return err
 			}
 		}
@@ -299,14 +314,94 @@ func (o *MonitorCheckGetMonitorCheckParams) WriteToRequest(r runtime.ClientReque
 
 	if o.ErrorLevel != nil {
 
-		// query param errorLevel
+		// query param ErrorLevel
 		var qrErrorLevel string
 		if o.ErrorLevel != nil {
 			qrErrorLevel = *o.ErrorLevel
 		}
 		qErrorLevel := qrErrorLevel
 		if qErrorLevel != "" {
-			if err := r.SetQueryParam("errorLevel", qErrorLevel); err != nil {
+			if err := r.SetQueryParam("ErrorLevel", qErrorLevel); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.PresetPeriod != nil {
+
+		// query param PresetPeriod
+		var qrPresetPeriod string
+		if o.PresetPeriod != nil {
+			qrPresetPeriod = *o.PresetPeriod
+		}
+		qPresetPeriod := qrPresetPeriod
+		if qPresetPeriod != "" {
+			if err := r.SetQueryParam("PresetPeriod", qPresetPeriod); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.ShowPartialMeasurements != nil {
+
+		// query param ShowPartialMeasurements
+		var qrShowPartialMeasurements bool
+		if o.ShowPartialMeasurements != nil {
+			qrShowPartialMeasurements = *o.ShowPartialMeasurements
+		}
+		qShowPartialMeasurements := swag.FormatBool(qrShowPartialMeasurements)
+		if qShowPartialMeasurements != "" {
+			if err := r.SetQueryParam("ShowPartialMeasurements", qShowPartialMeasurements); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.Sorting != nil {
+
+		// query param Sorting
+		var qrSorting string
+		if o.Sorting != nil {
+			qrSorting = *o.Sorting
+		}
+		qSorting := qrSorting
+		if qSorting != "" {
+			if err := r.SetQueryParam("Sorting", qSorting); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.Start != nil {
+
+		// query param Start
+		var qrStart strfmt.DateTime
+		if o.Start != nil {
+			qrStart = *o.Start
+		}
+		qStart := qrStart.String()
+		if qStart != "" {
+			if err := r.SetQueryParam("Start", qStart); err != nil {
+				return err
+			}
+		}
+
+	}
+
+	if o.Take != nil {
+
+		// query param Take
+		var qrTake int32
+		if o.Take != nil {
+			qrTake = *o.Take
+		}
+		qTake := swag.FormatInt32(qrTake)
+		if qTake != "" {
+			if err := r.SetQueryParam("Take", qTake); err != nil {
 				return err
 			}
 		}
@@ -316,70 +411,6 @@ func (o *MonitorCheckGetMonitorCheckParams) WriteToRequest(r runtime.ClientReque
 	// path param monitorGuid
 	if err := r.SetPathParam("monitorGuid", o.MonitorGUID); err != nil {
 		return err
-	}
-
-	if o.Period != nil {
-
-		// query param period
-		var qrPeriod string
-		if o.Period != nil {
-			qrPeriod = *o.Period
-		}
-		qPeriod := qrPeriod
-		if qPeriod != "" {
-			if err := r.SetQueryParam("period", qPeriod); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.Sorting != nil {
-
-		// query param sorting
-		var qrSorting string
-		if o.Sorting != nil {
-			qrSorting = *o.Sorting
-		}
-		qSorting := qrSorting
-		if qSorting != "" {
-			if err := r.SetQueryParam("sorting", qSorting); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.Start != nil {
-
-		// query param start
-		var qrStart strfmt.DateTime
-		if o.Start != nil {
-			qrStart = *o.Start
-		}
-		qStart := qrStart.String()
-		if qStart != "" {
-			if err := r.SetQueryParam("start", qStart); err != nil {
-				return err
-			}
-		}
-
-	}
-
-	if o.Take != nil {
-
-		// query param take
-		var qrTake int32
-		if o.Take != nil {
-			qrTake = *o.Take
-		}
-		qTake := swag.FormatInt32(qrTake)
-		if qTake != "" {
-			if err := r.SetQueryParam("take", qTake); err != nil {
-				return err
-			}
-		}
-
 	}
 
 	if len(res) > 0 {

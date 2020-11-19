@@ -13,10 +13,9 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // NewMonitorPutMonitorParams creates a new MonitorPutMonitorParams object
@@ -63,11 +62,11 @@ for the monitor put monitor operation typically these are written to a http.Requ
 */
 type MonitorPutMonitorParams struct {
 
-	/*APIMonitor
+	/*Monitor
 	  The complete definition for the monitor that should be updated.
 
 	*/
-	APIMonitor *models.APIMonitor
+	Monitor *models.Monitor
 	/*MonitorGUID
 	  The Guid of the monitor that should be updated.
 
@@ -112,15 +111,15 @@ func (o *MonitorPutMonitorParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithAPIMonitor adds the aPIMonitor to the monitor put monitor params
-func (o *MonitorPutMonitorParams) WithAPIMonitor(aPIMonitor *models.APIMonitor) *MonitorPutMonitorParams {
-	o.SetAPIMonitor(aPIMonitor)
+// WithMonitor adds the monitor to the monitor put monitor params
+func (o *MonitorPutMonitorParams) WithMonitor(monitor *models.Monitor) *MonitorPutMonitorParams {
+	o.SetMonitor(monitor)
 	return o
 }
 
-// SetAPIMonitor adds the apiMonitor to the monitor put monitor params
-func (o *MonitorPutMonitorParams) SetAPIMonitor(aPIMonitor *models.APIMonitor) {
-	o.APIMonitor = aPIMonitor
+// SetMonitor adds the monitor to the monitor put monitor params
+func (o *MonitorPutMonitorParams) SetMonitor(monitor *models.Monitor) {
+	o.Monitor = monitor
 }
 
 // WithMonitorGUID adds the monitorGUID to the monitor put monitor params
@@ -142,8 +141,8 @@ func (o *MonitorPutMonitorParams) WriteToRequest(r runtime.ClientRequest, reg st
 	}
 	var res []error
 
-	if o.APIMonitor != nil {
-		if err := r.SetBodyParam(o.APIMonitor); err != nil {
+	if o.Monitor != nil {
+		if err := r.SetBodyParam(o.Monitor); err != nil {
 			return err
 		}
 	}

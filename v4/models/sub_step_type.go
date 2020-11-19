@@ -8,13 +8,13 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // SubStepType sub step type
+//
 // swagger:model SubStepType
 type SubStepType string
 
@@ -68,7 +68,7 @@ func init() {
 }
 
 func (m SubStepType) validateSubStepTypeEnum(path, location string, value SubStepType) error {
-	if err := validate.Enum(path, location, value, subStepTypeEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, subStepTypeEnum, true); err != nil {
 		return err
 	}
 	return nil

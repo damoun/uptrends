@@ -6,21 +6,21 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // VaultSection vault section
+//
 // swagger:model VaultSection
 type VaultSection struct {
 
-	// name
+	// The name for this vault section
 	Name string `json:"Name,omitempty"`
 
-	// vault section Guid
+	// The Guid of this vault section
 	// Required: true
 	VaultSectionGUID *string `json:"VaultSectionGuid"`
 }

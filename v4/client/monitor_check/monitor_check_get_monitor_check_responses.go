@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // MonitorCheckGetMonitorCheckReader is a Reader for the MonitorCheckGetMonitorCheck structure.
@@ -38,7 +37,7 @@ func (o *MonitorCheckGetMonitorCheckReader) ReadResponse(response runtime.Client
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -49,7 +48,7 @@ func NewMonitorCheckGetMonitorCheckOK() *MonitorCheckGetMonitorCheckOK {
 
 /*MonitorCheckGetMonitorCheckOK handles this case with default header values.
 
-Monitor checks for the specified monitor.
+The request completed successfully.
 */
 type MonitorCheckGetMonitorCheckOK struct {
 	Payload *models.MonitorCheckResponse
@@ -85,20 +84,20 @@ func NewMonitorCheckGetMonitorCheckBadRequest() *MonitorCheckGetMonitorCheckBadR
 The request failed.
 */
 type MonitorCheckGetMonitorCheckBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorCheckGetMonitorCheckBadRequest) Error() string {
 	return fmt.Sprintf("[GET /MonitorCheck/Monitor/{monitorGuid}][%d] monitorCheckGetMonitorCheckBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *MonitorCheckGetMonitorCheckBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *MonitorCheckGetMonitorCheckBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorCheckGetMonitorCheckBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

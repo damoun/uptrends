@@ -8,13 +8,13 @@ package models
 import (
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // APIVariableDefinition Api variable definition
+//
 // swagger:model ApiVariableDefinition
 type APIVariableDefinition struct {
 
@@ -29,7 +29,7 @@ type APIVariableDefinition struct {
 
 	// source
 	// Required: true
-	Source APISourceType `json:"Source"`
+	Source APIVariableSourceType `json:"Source"`
 }
 
 // Validate validates this Api variable definition

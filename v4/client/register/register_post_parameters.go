@@ -13,18 +13,14 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // NewRegisterPostParams creates a new RegisterPostParams object
 // with the default values initialized.
 func NewRegisterPostParams() *RegisterPostParams {
-	var (
-		typeVarDefault = string("")
-	)
+
 	return &RegisterPostParams{
-		Type: &typeVarDefault,
 
 		timeout: cr.DefaultTimeout,
 	}
@@ -33,11 +29,8 @@ func NewRegisterPostParams() *RegisterPostParams {
 // NewRegisterPostParamsWithTimeout creates a new RegisterPostParams object
 // with the default values initialized, and the ability to set a timeout on a request
 func NewRegisterPostParamsWithTimeout(timeout time.Duration) *RegisterPostParams {
-	var (
-		typeVarDefault = string("")
-	)
+
 	return &RegisterPostParams{
-		Type: &typeVarDefault,
 
 		timeout: timeout,
 	}
@@ -46,11 +39,8 @@ func NewRegisterPostParamsWithTimeout(timeout time.Duration) *RegisterPostParams
 // NewRegisterPostParamsWithContext creates a new RegisterPostParams object
 // with the default values initialized, and the ability to set a context for a request
 func NewRegisterPostParamsWithContext(ctx context.Context) *RegisterPostParams {
-	var (
-		typeDefault = string("")
-	)
+
 	return &RegisterPostParams{
-		Type: &typeDefault,
 
 		Context: ctx,
 	}
@@ -59,11 +49,8 @@ func NewRegisterPostParamsWithContext(ctx context.Context) *RegisterPostParams {
 // NewRegisterPostParamsWithHTTPClient creates a new RegisterPostParams object
 // with the default values initialized, and the ability to set a custom HTTPClient for a request
 func NewRegisterPostParamsWithHTTPClient(client *http.Client) *RegisterPostParams {
-	var (
-		typeDefault = string("")
-	)
+
 	return &RegisterPostParams{
-		Type:       &typeDefault,
 		HTTPClient: client,
 	}
 }
@@ -72,15 +59,6 @@ func NewRegisterPostParamsWithHTTPClient(client *http.Client) *RegisterPostParam
 for the register post operation typically these are written to a http.Request
 */
 type RegisterPostParams struct {
-
-	/*Description
-	  A simple text value to give the new API account a name, e.g. "API"
-
-	*/
-	Description string
-	/*Type*/
-	Type *string
-
 	timeout    time.Duration
 	Context    context.Context
 	HTTPClient *http.Client
@@ -119,28 +97,6 @@ func (o *RegisterPostParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithDescription adds the description to the register post params
-func (o *RegisterPostParams) WithDescription(description string) *RegisterPostParams {
-	o.SetDescription(description)
-	return o
-}
-
-// SetDescription adds the description to the register post params
-func (o *RegisterPostParams) SetDescription(description string) {
-	o.Description = description
-}
-
-// WithType adds the typeVar to the register post params
-func (o *RegisterPostParams) WithType(typeVar *string) *RegisterPostParams {
-	o.SetType(typeVar)
-	return o
-}
-
-// SetType adds the type to the register post params
-func (o *RegisterPostParams) SetType(typeVar *string) {
-	o.Type = typeVar
-}
-
 // WriteToRequest writes these params to a swagger request
 func (o *RegisterPostParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Registry) error {
 
@@ -148,31 +104,6 @@ func (o *RegisterPostParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		return err
 	}
 	var res []error
-
-	// query param description
-	qrDescription := o.Description
-	qDescription := qrDescription
-	if qDescription != "" {
-		if err := r.SetQueryParam("description", qDescription); err != nil {
-			return err
-		}
-	}
-
-	if o.Type != nil {
-
-		// query param type
-		var qrType string
-		if o.Type != nil {
-			qrType = *o.Type
-		}
-		qType := qrType
-		if qType != "" {
-			if err := r.SetQueryParam("type", qType); err != nil {
-				return err
-			}
-		}
-
-	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

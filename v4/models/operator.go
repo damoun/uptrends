@@ -6,82 +6,88 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
-// Operator operator
+// Operator Operator
+//
 // swagger:model Operator
 type Operator struct {
 
-	// allow native login
+	// This can only be set to false if the account has SSO enabled. Ommitting or providing null will use the account default
 	AllowNativeLogin bool `json:"AllowNativeLogin,omitempty"`
 
-	// allow single signon
+	// allow native login specified
+	AllowNativeLoginSpecified bool `json:"AllowNativeLoginSpecified,omitempty"`
+
+	// This can only be set to true if the account has SSO enabled. Ommitting or providing null will use the account default
 	AllowSingleSignon bool `json:"AllowSingleSignon,omitempty"`
 
-	// backup email
+	// allow single signon specified
+	AllowSingleSignonSpecified bool `json:"AllowSingleSignonSpecified,omitempty"`
+
+	// The backup email address of this operator
 	BackupEmail string `json:"BackupEmail,omitempty"`
 
-	// culture name
+	// If ommitted the operator will use the account culture. If set it will override the account default
 	CultureName string `json:"CultureName,omitempty"`
 
-	// email
+	// culture name specified
+	CultureNameSpecified bool `json:"CultureNameSpecified,omitempty"`
+
+	// The email address of this operator. This also serves as the username
 	Email string `json:"Email,omitempty"`
 
-	// full name
+	// The full name of this operator
 	FullName string `json:"FullName,omitempty"`
 
-	// is account administrator
-	// Required: true
-	IsAccountAdministrator *bool `json:"IsAccountAdministrator"`
+	// The hash of this operator.
+	Hash string `json:"Hash,omitempty"`
 
-	// is on duty
-	// Required: true
-	IsOnDuty *bool `json:"IsOnDuty"`
+	// This indicates if the operator is the account administrator.
+	IsAccountAdministrator bool `json:"IsAccountAdministrator,omitempty"`
 
-	// mobile phone
+	// Indicates whether the operator is currently active
+	IsOnDuty bool `json:"IsOnDuty,omitempty"`
+
+	// The phone number of this operator to which SMS and phone alerts can be sent. Start with a plus (+) sign and your country code
 	MobilePhone string `json:"MobilePhone,omitempty"`
 
-	// operator Guid
-	// Required: true
-	OperatorGUID *string `json:"OperatorGuid"`
+	// The unique identifier of this operator
+	OperatorGUID string `json:"OperatorGuid,omitempty"`
 
-	// outgoing phone number Id
+	// The id of the phone number that will be used to send phone alerts (See /OutgoingPhoneNumber API under Miscellaneous for available ids)
 	OutgoingPhoneNumberID int32 `json:"OutgoingPhoneNumberId,omitempty"`
 
-	// password
+	// outgoing phone number Id specified
+	OutgoingPhoneNumberIDSpecified bool `json:"OutgoingPhoneNumberIdSpecified,omitempty"`
+
+	// The password is a required field if AllowNativeLogin is set to True
 	Password string `json:"Password,omitempty"`
 
-	// sms provider
-	// Required: true
-	SmsProvider SmsProvider `json:"SmsProvider"`
+	// The SMS provider used to send out SMS alerts
+	SmsProvider struct {
+		SmsProvider
+	} `json:"SmsProvider,omitempty"`
 
-	// time zone Id
+	// The id of the timezone of this operator (See /Timezone API under Miscellaneous for available timezones)
 	TimeZoneID int64 `json:"TimeZoneId,omitempty"`
 
-	// use numeric sender
+	// time zone Id specified
+	TimeZoneIDSpecified bool `json:"TimeZoneIdSpecified,omitempty"`
+
+	// Set to True to override the default behavior of sending SMS alerts with textual sender ID
 	UseNumericSender bool `json:"UseNumericSender,omitempty"`
+
+	// use numeric sender specified
+	UseNumericSenderSpecified bool `json:"UseNumericSenderSpecified,omitempty"`
 }
 
 // Validate validates this operator
 func (m *Operator) Validate(formats strfmt.Registry) error {
 	var res []error
-
-	if err := m.validateIsAccountAdministrator(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateIsOnDuty(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateOperatorGUID(formats); err != nil {
-		res = append(res, err)
-	}
 
 	if err := m.validateSmsProvider(formats); err != nil {
 		res = append(res, err)
@@ -93,40 +99,10 @@ func (m *Operator) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Operator) validateIsAccountAdministrator(formats strfmt.Registry) error {
-
-	if err := validate.Required("IsAccountAdministrator", "body", m.IsAccountAdministrator); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *Operator) validateIsOnDuty(formats strfmt.Registry) error {
-
-	if err := validate.Required("IsOnDuty", "body", m.IsOnDuty); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *Operator) validateOperatorGUID(formats strfmt.Registry) error {
-
-	if err := validate.Required("OperatorGuid", "body", m.OperatorGUID); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func (m *Operator) validateSmsProvider(formats strfmt.Registry) error {
 
-	if err := m.SmsProvider.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("SmsProvider")
-		}
-		return err
+	if swag.IsZero(m.SmsProvider) { // not required
+		return nil
 	}
 
 	return nil

@@ -8,13 +8,13 @@ package models
 import (
 	"strconv"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // TransactionAttributes transaction attributes
+//
 // swagger:model TransactionAttributes
 type TransactionAttributes struct {
 
@@ -22,7 +22,7 @@ type TransactionAttributes struct {
 	ResponseBody string `json:"ResponseBody,omitempty"`
 
 	// Results of the transaction steps
-	StepResults []*ResourceObject17 `json:"StepResults"`
+	StepResults []*TransactionStepOResourceObject `json:"StepResults"`
 }
 
 // Validate validates this transaction attributes

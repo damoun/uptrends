@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // OperatorGroupGetOperatorGroupReader is a Reader for the OperatorGroupGetOperatorGroup structure.
@@ -44,7 +43,7 @@ func (o *OperatorGroupGetOperatorGroupReader) ReadResponse(response runtime.Clie
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewOperatorGroupGetOperatorGroupOK() *OperatorGroupGetOperatorGroupOK {
 
 /*OperatorGroupGetOperatorGroupOK handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully.
 */
 type OperatorGroupGetOperatorGroupOK struct {
 	Payload *models.OperatorGroup
@@ -91,20 +90,20 @@ func NewOperatorGroupGetOperatorGroupBadRequest() *OperatorGroupGetOperatorGroup
 The request failed.
 */
 type OperatorGroupGetOperatorGroupBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorGroupGetOperatorGroupBadRequest) Error() string {
 	return fmt.Sprintf("[GET /OperatorGroup/{operatorGroupGuid}][%d] operatorGroupGetOperatorGroupBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *OperatorGroupGetOperatorGroupBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *OperatorGroupGetOperatorGroupBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorGroupGetOperatorGroupBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -124,20 +123,20 @@ func NewOperatorGroupGetOperatorGroupNotFound() *OperatorGroupGetOperatorGroupNo
 The requested operator group was not found.
 */
 type OperatorGroupGetOperatorGroupNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorGroupGetOperatorGroupNotFound) Error() string {
 	return fmt.Sprintf("[GET /OperatorGroup/{operatorGroupGuid}][%d] operatorGroupGetOperatorGroupNotFound  %+v", 404, o.Payload)
 }
 
-func (o *OperatorGroupGetOperatorGroupNotFound) GetPayload() *models.APIMessageInfo {
+func (o *OperatorGroupGetOperatorGroupNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorGroupGetOperatorGroupNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

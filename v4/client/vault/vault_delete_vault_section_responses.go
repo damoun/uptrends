@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // VaultDeleteVaultSectionReader is a Reader for the VaultDeleteVaultSection structure.
@@ -44,7 +43,7 @@ func (o *VaultDeleteVaultSectionReader) ReadResponse(response runtime.ClientResp
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,28 +54,16 @@ func NewVaultDeleteVaultSectionNoContent() *VaultDeleteVaultSectionNoContent {
 
 /*VaultDeleteVaultSectionNoContent handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully. No content is returned.
 */
 type VaultDeleteVaultSectionNoContent struct {
-	Payload *models.VaultSection
 }
 
 func (o *VaultDeleteVaultSectionNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /VaultSection/{vaultSectionGuid}][%d] vaultDeleteVaultSectionNoContent  %+v", 204, o.Payload)
-}
-
-func (o *VaultDeleteVaultSectionNoContent) GetPayload() *models.VaultSection {
-	return o.Payload
+	return fmt.Sprintf("[DELETE /VaultSection/{vaultSectionGuid}][%d] vaultDeleteVaultSectionNoContent ", 204)
 }
 
 func (o *VaultDeleteVaultSectionNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.VaultSection)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
 
 	return nil
 }
@@ -91,20 +78,20 @@ func NewVaultDeleteVaultSectionBadRequest() *VaultDeleteVaultSectionBadRequest {
 The request failed.
 */
 type VaultDeleteVaultSectionBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultDeleteVaultSectionBadRequest) Error() string {
 	return fmt.Sprintf("[DELETE /VaultSection/{vaultSectionGuid}][%d] vaultDeleteVaultSectionBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *VaultDeleteVaultSectionBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *VaultDeleteVaultSectionBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultDeleteVaultSectionBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -124,20 +111,20 @@ func NewVaultDeleteVaultSectionNotFound() *VaultDeleteVaultSectionNotFound {
 The requested vault section does not exist.
 */
 type VaultDeleteVaultSectionNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultDeleteVaultSectionNotFound) Error() string {
 	return fmt.Sprintf("[DELETE /VaultSection/{vaultSectionGuid}][%d] vaultDeleteVaultSectionNotFound  %+v", 404, o.Payload)
 }
 
-func (o *VaultDeleteVaultSectionNotFound) GetPayload() *models.APIMessageInfo {
+func (o *VaultDeleteVaultSectionNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultDeleteVaultSectionNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

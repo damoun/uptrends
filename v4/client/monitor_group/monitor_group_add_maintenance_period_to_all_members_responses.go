@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // MonitorGroupAddMaintenancePeriodToAllMembersReader is a Reader for the MonitorGroupAddMaintenancePeriodToAllMembers structure.
@@ -44,7 +43,7 @@ func (o *MonitorGroupAddMaintenancePeriodToAllMembersReader) ReadResponse(respon
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewMonitorGroupAddMaintenancePeriodToAllMembersNoContent() *MonitorGroupAdd
 
 /*MonitorGroupAddMaintenancePeriodToAllMembersNoContent handles this case with default header values.
 
-The maintenance period has been added to all monitors in the group.
+The request completed successfully. No content is returned.
 */
 type MonitorGroupAddMaintenancePeriodToAllMembersNoContent struct {
 }
@@ -79,20 +78,20 @@ func NewMonitorGroupAddMaintenancePeriodToAllMembersBadRequest() *MonitorGroupAd
 The request failed.
 */
 type MonitorGroupAddMaintenancePeriodToAllMembersBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGroupAddMaintenancePeriodToAllMembersBadRequest) Error() string {
 	return fmt.Sprintf("[POST /MonitorGroup/{monitorGroupGuid}/AddMaintenancePeriodToAllMembers][%d] monitorGroupAddMaintenancePeriodToAllMembersBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *MonitorGroupAddMaintenancePeriodToAllMembersBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGroupAddMaintenancePeriodToAllMembersBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGroupAddMaintenancePeriodToAllMembersBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -112,20 +111,20 @@ func NewMonitorGroupAddMaintenancePeriodToAllMembersNotFound() *MonitorGroupAddM
 The requested monitor group was not found.
 */
 type MonitorGroupAddMaintenancePeriodToAllMembersNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGroupAddMaintenancePeriodToAllMembersNotFound) Error() string {
 	return fmt.Sprintf("[POST /MonitorGroup/{monitorGroupGuid}/AddMaintenancePeriodToAllMembers][%d] monitorGroupAddMaintenancePeriodToAllMembersNotFound  %+v", 404, o.Payload)
 }
 
-func (o *MonitorGroupAddMaintenancePeriodToAllMembersNotFound) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGroupAddMaintenancePeriodToAllMembersNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGroupAddMaintenancePeriodToAllMembersNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

@@ -13,9 +13,8 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewMonitorCheckGetScreenshotsParams creates a new MonitorCheckGetScreenshotsParams object
@@ -62,9 +61,15 @@ for the monitor check get screenshots operation typically these are written to a
 */
 type MonitorCheckGetScreenshotsParams struct {
 
-	/*MonitorCheckID*/
+	/*MonitorCheckID
+	  The monitor check Id to get the screenshot data for.
+
+	*/
 	MonitorCheckID int64
-	/*ScreenshotID*/
+	/*ScreenshotID
+	  The screenshot Id of the screenshot to get.
+
+	*/
 	ScreenshotID string
 
 	timeout    time.Duration

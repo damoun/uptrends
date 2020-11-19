@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // MonitorGroupDeleteMonitorGroupReader is a Reader for the MonitorGroupDeleteMonitorGroup structure.
@@ -44,7 +43,7 @@ func (o *MonitorGroupDeleteMonitorGroupReader) ReadResponse(response runtime.Cli
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewMonitorGroupDeleteMonitorGroupNoContent() *MonitorGroupDeleteMonitorGrou
 
 /*MonitorGroupDeleteMonitorGroupNoContent handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully. No content is returned.
 */
 type MonitorGroupDeleteMonitorGroupNoContent struct {
 }
@@ -81,20 +80,20 @@ or
 Deleting the AllMonitors group is not allowed.
 */
 type MonitorGroupDeleteMonitorGroupBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGroupDeleteMonitorGroupBadRequest) Error() string {
 	return fmt.Sprintf("[DELETE /MonitorGroup/{monitorGroupGuid}][%d] monitorGroupDeleteMonitorGroupBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *MonitorGroupDeleteMonitorGroupBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGroupDeleteMonitorGroupBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGroupDeleteMonitorGroupBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -114,20 +113,20 @@ func NewMonitorGroupDeleteMonitorGroupNotFound() *MonitorGroupDeleteMonitorGroup
 The requested monitor group was not found.
 */
 type MonitorGroupDeleteMonitorGroupNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorGroupDeleteMonitorGroupNotFound) Error() string {
 	return fmt.Sprintf("[DELETE /MonitorGroup/{monitorGroupGuid}][%d] monitorGroupDeleteMonitorGroupNotFound  %+v", 404, o.Payload)
 }
 
-func (o *MonitorGroupDeleteMonitorGroupNotFound) GetPayload() *models.APIMessageInfo {
+func (o *MonitorGroupDeleteMonitorGroupNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorGroupDeleteMonitorGroupNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

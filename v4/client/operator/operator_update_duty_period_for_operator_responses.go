@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // OperatorUpdateDutyPeriodForOperatorReader is a Reader for the OperatorUpdateDutyPeriodForOperator structure.
@@ -44,7 +43,7 @@ func (o *OperatorUpdateDutyPeriodForOperatorReader) ReadResponse(response runtim
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,7 +54,7 @@ func NewOperatorUpdateDutyPeriodForOperatorNoContent() *OperatorUpdateDutyPeriod
 
 /*OperatorUpdateDutyPeriodForOperatorNoContent handles this case with default header values.
 
-The duty period period has been updated. No content is returned.
+The request completed successfully. No content is returned.
 */
 type OperatorUpdateDutyPeriodForOperatorNoContent struct {
 }
@@ -79,20 +78,20 @@ func NewOperatorUpdateDutyPeriodForOperatorBadRequest() *OperatorUpdateDutyPerio
 The request failed.
 */
 type OperatorUpdateDutyPeriodForOperatorBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorUpdateDutyPeriodForOperatorBadRequest) Error() string {
 	return fmt.Sprintf("[PUT /Operator/{operatorGuid}/DutySchedule/{dutyScheduleId}][%d] operatorUpdateDutyPeriodForOperatorBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *OperatorUpdateDutyPeriodForOperatorBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *OperatorUpdateDutyPeriodForOperatorBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorUpdateDutyPeriodForOperatorBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -112,20 +111,20 @@ func NewOperatorUpdateDutyPeriodForOperatorNotFound() *OperatorUpdateDutyPeriodF
 The specified operator or duty schedule does not exist.
 */
 type OperatorUpdateDutyPeriodForOperatorNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *OperatorUpdateDutyPeriodForOperatorNotFound) Error() string {
 	return fmt.Sprintf("[PUT /Operator/{operatorGuid}/DutySchedule/{dutyScheduleId}][%d] operatorUpdateDutyPeriodForOperatorNotFound  %+v", 404, o.Payload)
 }
 
-func (o *OperatorUpdateDutyPeriodForOperatorNotFound) GetPayload() *models.APIMessageInfo {
+func (o *OperatorUpdateDutyPeriodForOperatorNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *OperatorUpdateDutyPeriodForOperatorNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

@@ -13,9 +13,8 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewCheckpointServerGetServerParams creates a new CheckpointServerGetServerParams object
@@ -62,7 +61,10 @@ for the checkpoint server get server operation typically these are written to a 
 */
 type CheckpointServerGetServerParams struct {
 
-	/*ServerID*/
+	/*ServerID
+	  The Id of the requested server.
+
+	*/
 	ServerID int64
 
 	timeout    time.Duration

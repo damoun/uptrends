@@ -6,13 +6,13 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
 
 // APIAssertion Api assertion
+//
 // swagger:model ApiAssertion
 type APIAssertion struct {
 
@@ -25,7 +25,7 @@ type APIAssertion struct {
 
 	// source
 	// Required: true
-	Source APISourceType `json:"Source"`
+	Source APIAssertionSourceType `json:"Source"`
 
 	// target value
 	TargetValue string `json:"TargetValue,omitempty"`

@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // VaultGetAllVaultSectionsReader is a Reader for the VaultGetAllVaultSections structure.
@@ -38,7 +37,7 @@ func (o *VaultGetAllVaultSectionsReader) ReadResponse(response runtime.ClientRes
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -49,7 +48,7 @@ func NewVaultGetAllVaultSectionsOK() *VaultGetAllVaultSectionsOK {
 
 /*VaultGetAllVaultSectionsOK handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully.
 */
 type VaultGetAllVaultSectionsOK struct {
 	Payload []*models.VaultSection
@@ -83,20 +82,20 @@ func NewVaultGetAllVaultSectionsBadRequest() *VaultGetAllVaultSectionsBadRequest
 The request failed.
 */
 type VaultGetAllVaultSectionsBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultGetAllVaultSectionsBadRequest) Error() string {
 	return fmt.Sprintf("[GET /VaultSection][%d] vaultGetAllVaultSectionsBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *VaultGetAllVaultSectionsBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *VaultGetAllVaultSectionsBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultGetAllVaultSectionsBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

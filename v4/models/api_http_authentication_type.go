@@ -8,20 +8,17 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // APIHTTPAuthenticationType Api Http authentication type
+//
 // swagger:model ApiHttpAuthenticationType
 type APIHTTPAuthenticationType string
 
 const (
-
-	// APIHTTPAuthenticationTypeNotSet captures enum value "NotSet"
-	APIHTTPAuthenticationTypeNotSet APIHTTPAuthenticationType = "NotSet"
 
 	// APIHTTPAuthenticationTypeNone captures enum value "None"
 	APIHTTPAuthenticationTypeNone APIHTTPAuthenticationType = "None"
@@ -34,9 +31,6 @@ const (
 
 	// APIHTTPAuthenticationTypeDigest captures enum value "Digest"
 	APIHTTPAuthenticationTypeDigest APIHTTPAuthenticationType = "Digest"
-
-	// APIHTTPAuthenticationTypeOAuth captures enum value "OAuth"
-	APIHTTPAuthenticationTypeOAuth APIHTTPAuthenticationType = "OAuth"
 )
 
 // for schema
@@ -44,7 +38,7 @@ var apiHttpAuthenticationTypeEnum []interface{}
 
 func init() {
 	var res []APIHTTPAuthenticationType
-	if err := json.Unmarshal([]byte(`["NotSet","None","Basic","NTLM","Digest","OAuth"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["None","Basic","NTLM","Digest"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -53,7 +47,7 @@ func init() {
 }
 
 func (m APIHTTPAuthenticationType) validateAPIHTTPAuthenticationTypeEnum(path, location string, value APIHTTPAuthenticationType) error {
-	if err := validate.Enum(path, location, value, apiHttpAuthenticationTypeEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, apiHttpAuthenticationTypeEnum, true); err != nil {
 		return err
 	}
 	return nil

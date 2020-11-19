@@ -9,12 +9,11 @@ import (
 	"fmt"
 
 	"github.com/go-openapi/runtime"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // New creates a new checkpoint API client.
-func New(transport runtime.ClientTransport, formats strfmt.Registry) *Client {
+func New(transport runtime.ClientTransport, formats strfmt.Registry) ClientService {
 	return &Client{transport: transport, formats: formats}
 }
 
@@ -26,76 +25,202 @@ type Client struct {
 	formats   strfmt.Registry
 }
 
+// ClientService is the interface for Client methods
+type ClientService interface {
+	CheckpointRegionGetAllCheckpointRegions(params *CheckpointRegionGetAllCheckpointRegionsParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointRegionGetAllCheckpointRegionsOK, error)
+
+	CheckpointRegionGetCheckpointRegionCheckpoints(params *CheckpointRegionGetCheckpointRegionCheckpointsParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointRegionGetCheckpointRegionCheckpointsOK, error)
+
+	CheckpointRegionGetSpecifiedCheckpointRegion(params *CheckpointRegionGetSpecifiedCheckpointRegionParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointRegionGetSpecifiedCheckpointRegionOK, error)
+
+	CheckpointServerGetAllServerIPV4Addresses(params *CheckpointServerGetAllServerIPV4AddressesParams) (*CheckpointServerGetAllServerIPV4AddressesOK, error)
+
+	CheckpointServerGetAllServerIPV6Addresses(params *CheckpointServerGetAllServerIPV6AddressesParams) (*CheckpointServerGetAllServerIPV6AddressesOK, error)
+
+	CheckpointServerGetServer(params *CheckpointServerGetServerParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointServerGetServerOK, error)
+
+	CheckpointGetAllCheckpoints(params *CheckpointGetAllCheckpointsParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointGetAllCheckpointsOK, error)
+
+	CheckpointGetCheckpoint(params *CheckpointGetCheckpointParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointGetCheckpointOK, error)
+
+	SetTransport(transport runtime.ClientTransport)
+}
+
 /*
-CheckpointServerGetAllServerIpv4s anonymous call returns all the IPv4 addresses of all the checkpoint servers
+  CheckpointRegionGetAllCheckpointRegions returns all the checkpoint regions
 */
-func (a *Client) CheckpointServerGetAllServerIpv4s(params *CheckpointServerGetAllServerIpv4sParams) (*CheckpointServerGetAllServerIpv4sOK, error) {
+func (a *Client) CheckpointRegionGetAllCheckpointRegions(params *CheckpointRegionGetAllCheckpointRegionsParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointRegionGetAllCheckpointRegionsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewCheckpointServerGetAllServerIpv4sParams()
+		params = NewCheckpointRegionGetAllCheckpointRegionsParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "CheckpointServer_GetAllServerIpv4s",
+		ID:                 "CheckpointRegion_GetAllCheckpointRegions",
+		Method:             "GET",
+		PathPattern:        "/CheckpointRegion",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CheckpointRegionGetAllCheckpointRegionsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CheckpointRegionGetAllCheckpointRegionsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for CheckpointRegion_GetAllCheckpointRegions: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  CheckpointRegionGetCheckpointRegionCheckpoints returns the checkpoints for the specified checkpoint region
+*/
+func (a *Client) CheckpointRegionGetCheckpointRegionCheckpoints(params *CheckpointRegionGetCheckpointRegionCheckpointsParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointRegionGetCheckpointRegionCheckpointsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCheckpointRegionGetCheckpointRegionCheckpointsParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "CheckpointRegion_GetCheckpointRegionCheckpoints",
+		Method:             "GET",
+		PathPattern:        "/CheckpointRegion/{checkpointRegionId}/Checkpoint",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CheckpointRegionGetCheckpointRegionCheckpointsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CheckpointRegionGetCheckpointRegionCheckpointsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for CheckpointRegion_GetCheckpointRegionCheckpoints: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  CheckpointRegionGetSpecifiedCheckpointRegion returns the specified checkpoint region
+*/
+func (a *Client) CheckpointRegionGetSpecifiedCheckpointRegion(params *CheckpointRegionGetSpecifiedCheckpointRegionParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointRegionGetSpecifiedCheckpointRegionOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCheckpointRegionGetSpecifiedCheckpointRegionParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "CheckpointRegion_GetSpecifiedCheckpointRegion",
+		Method:             "GET",
+		PathPattern:        "/CheckpointRegion/{checkpointRegionId}",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CheckpointRegionGetSpecifiedCheckpointRegionReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*CheckpointRegionGetSpecifiedCheckpointRegionOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for CheckpointRegion_GetSpecifiedCheckpointRegion: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
+}
+
+/*
+  CheckpointServerGetAllServerIPV4Addresses anonymous call that returns all the IPv4 addresses of all the checkpoint servers
+*/
+func (a *Client) CheckpointServerGetAllServerIPV4Addresses(params *CheckpointServerGetAllServerIPV4AddressesParams) (*CheckpointServerGetAllServerIPV4AddressesOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCheckpointServerGetAllServerIPV4AddressesParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "CheckpointServer_GetAllServerIpv4Addresses",
 		Method:             "GET",
 		PathPattern:        "/Checkpoint/Server/Ipv4",
 		ProducesMediaTypes: []string{"application/json", "application/xml"},
 		ConsumesMediaTypes: []string{"application/json", "application/xml"},
 		Schemes:            []string{"https"},
 		Params:             params,
-		Reader:             &CheckpointServerGetAllServerIpv4sReader{formats: a.formats},
+		Reader:             &CheckpointServerGetAllServerIPV4AddressesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CheckpointServerGetAllServerIpv4sOK)
+	success, ok := result.(*CheckpointServerGetAllServerIPV4AddressesOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for CheckpointServer_GetAllServerIpv4s: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for CheckpointServer_GetAllServerIpv4Addresses: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
 /*
-CheckpointServerGetAllServerIpv6s anonymous call returns all the IPv6 addresses of all the checkpoint servers
+  CheckpointServerGetAllServerIPV6Addresses anonymous call that returns all the IPv6 addresses of all the checkpoint servers
 */
-func (a *Client) CheckpointServerGetAllServerIpv6s(params *CheckpointServerGetAllServerIpv6sParams) (*CheckpointServerGetAllServerIpv6sOK, error) {
+func (a *Client) CheckpointServerGetAllServerIPV6Addresses(params *CheckpointServerGetAllServerIPV6AddressesParams) (*CheckpointServerGetAllServerIPV6AddressesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
-		params = NewCheckpointServerGetAllServerIpv6sParams()
+		params = NewCheckpointServerGetAllServerIPV6AddressesParams()
 	}
 
 	result, err := a.transport.Submit(&runtime.ClientOperation{
-		ID:                 "CheckpointServer_GetAllServerIpv6s",
+		ID:                 "CheckpointServer_GetAllServerIpv6Addresses",
 		Method:             "GET",
 		PathPattern:        "/Checkpoint/Server/Ipv6",
 		ProducesMediaTypes: []string{"application/json", "application/xml"},
 		ConsumesMediaTypes: []string{"application/json", "application/xml"},
 		Schemes:            []string{"https"},
 		Params:             params,
-		Reader:             &CheckpointServerGetAllServerIpv6sReader{formats: a.formats},
+		Reader:             &CheckpointServerGetAllServerIPV6AddressesReader{formats: a.formats},
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
 	if err != nil {
 		return nil, err
 	}
-	success, ok := result.(*CheckpointServerGetAllServerIpv6sOK)
+	success, ok := result.(*CheckpointServerGetAllServerIPV6AddressesOK)
 	if ok {
 		return success, nil
 	}
 	// unexpected success response
 	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
-	msg := fmt.Sprintf("unexpected success response for CheckpointServer_GetAllServerIpv6s: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	msg := fmt.Sprintf("unexpected success response for CheckpointServer_GetAllServerIpv6Addresses: API contract not enforced by server. Client expected to get an error, but got: %T", result)
 	panic(msg)
 }
 
 /*
-CheckpointServerGetServer returns the specified checkpoint server
+  CheckpointServerGetServer returns the requested checkpoint server
 */
 func (a *Client) CheckpointServerGetServer(params *CheckpointServerGetServerParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointServerGetServerOK, error) {
 	// TODO: Validate the params before sending
@@ -130,7 +255,7 @@ func (a *Client) CheckpointServerGetServer(params *CheckpointServerGetServerPara
 }
 
 /*
-CheckpointGetAllCheckpoints returns all the checkpoints
+  CheckpointGetAllCheckpoints returns all the checkpoints
 */
 func (a *Client) CheckpointGetAllCheckpoints(params *CheckpointGetAllCheckpointsParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointGetAllCheckpointsOK, error) {
 	// TODO: Validate the params before sending
@@ -165,7 +290,7 @@ func (a *Client) CheckpointGetAllCheckpoints(params *CheckpointGetAllCheckpoints
 }
 
 /*
-CheckpointGetCheckpoint returns the specified checkpoint
+  CheckpointGetCheckpoint returns the specified checkpoint
 */
 func (a *Client) CheckpointGetCheckpoint(params *CheckpointGetCheckpointParams, authInfo runtime.ClientAuthInfoWriter) (*CheckpointGetCheckpointOK, error) {
 	// TODO: Validate the params before sending

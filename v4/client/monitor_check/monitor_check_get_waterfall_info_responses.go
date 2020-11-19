@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // MonitorCheckGetWaterfallInfoReader is a Reader for the MonitorCheckGetWaterfallInfo structure.
@@ -38,7 +37,7 @@ func (o *MonitorCheckGetWaterfallInfoReader) ReadResponse(response runtime.Clien
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -49,23 +48,23 @@ func NewMonitorCheckGetWaterfallInfoOK() *MonitorCheckGetWaterfallInfoOK {
 
 /*MonitorCheckGetWaterfallInfoOK handles this case with default header values.
 
-MonitorCheckGetWaterfallInfoOK monitor check get waterfall info o k
+The request completed successfully.
 */
 type MonitorCheckGetWaterfallInfoOK struct {
-	Payload *models.WaterfalResponse
+	Payload *models.WaterfallResponse
 }
 
 func (o *MonitorCheckGetWaterfallInfoOK) Error() string {
 	return fmt.Sprintf("[GET /MonitorCheck/{monitorCheckId}/Waterfall][%d] monitorCheckGetWaterfallInfoOK  %+v", 200, o.Payload)
 }
 
-func (o *MonitorCheckGetWaterfallInfoOK) GetPayload() *models.WaterfalResponse {
+func (o *MonitorCheckGetWaterfallInfoOK) GetPayload() *models.WaterfallResponse {
 	return o.Payload
 }
 
 func (o *MonitorCheckGetWaterfallInfoOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.WaterfalResponse)
+	o.Payload = new(models.WaterfallResponse)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -85,20 +84,20 @@ func NewMonitorCheckGetWaterfallInfoBadRequest() *MonitorCheckGetWaterfallInfoBa
 The request failed.
 */
 type MonitorCheckGetWaterfallInfoBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *MonitorCheckGetWaterfallInfoBadRequest) Error() string {
 	return fmt.Sprintf("[GET /MonitorCheck/{monitorCheckId}/Waterfall][%d] monitorCheckGetWaterfallInfoBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *MonitorCheckGetWaterfallInfoBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *MonitorCheckGetWaterfallInfoBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *MonitorCheckGetWaterfallInfoBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

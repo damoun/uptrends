@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // VaultUpdateVaultItemReader is a Reader for the VaultUpdateVaultItem structure.
@@ -44,7 +43,7 @@ func (o *VaultUpdateVaultItemReader) ReadResponse(response runtime.ClientRespons
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,28 +54,16 @@ func NewVaultUpdateVaultItemNoContent() *VaultUpdateVaultItemNoContent {
 
 /*VaultUpdateVaultItemNoContent handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully. No content is returned.
 */
 type VaultUpdateVaultItemNoContent struct {
-	Payload *models.VaultItem
 }
 
 func (o *VaultUpdateVaultItemNoContent) Error() string {
-	return fmt.Sprintf("[PUT /VaultItem/{vaultItemGuid}][%d] vaultUpdateVaultItemNoContent  %+v", 204, o.Payload)
-}
-
-func (o *VaultUpdateVaultItemNoContent) GetPayload() *models.VaultItem {
-	return o.Payload
+	return fmt.Sprintf("[PUT /VaultItem/{vaultItemGuid}][%d] vaultUpdateVaultItemNoContent ", 204)
 }
 
 func (o *VaultUpdateVaultItemNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.VaultItem)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
 
 	return nil
 }
@@ -91,20 +78,20 @@ func NewVaultUpdateVaultItemBadRequest() *VaultUpdateVaultItemBadRequest {
 The request failed.
 */
 type VaultUpdateVaultItemBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultUpdateVaultItemBadRequest) Error() string {
 	return fmt.Sprintf("[PUT /VaultItem/{vaultItemGuid}][%d] vaultUpdateVaultItemBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *VaultUpdateVaultItemBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *VaultUpdateVaultItemBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultUpdateVaultItemBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -124,20 +111,20 @@ func NewVaultUpdateVaultItemNotFound() *VaultUpdateVaultItemNotFound {
 The requested vault item does not exist.
 */
 type VaultUpdateVaultItemNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultUpdateVaultItemNotFound) Error() string {
 	return fmt.Sprintf("[PUT /VaultItem/{vaultItemGuid}][%d] vaultUpdateVaultItemNotFound  %+v", 404, o.Payload)
 }
 
-func (o *VaultUpdateVaultItemNotFound) GetPayload() *models.APIMessageInfo {
+func (o *VaultUpdateVaultItemNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultUpdateVaultItemNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

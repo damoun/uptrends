@@ -6,32 +6,32 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
-// Timezone timezone
+// Timezone Time zone available in Uptrends
+//
 // swagger:model Timezone
 type Timezone struct {
 
-	// daylight saving offset
+	// The time offset for Daylight Saving Time in minutes
 	DaylightSavingOffset int64 `json:"DaylightSavingOffset,omitempty"`
 
-	// description
+	// The description of the time zone
 	Description string `json:"Description,omitempty"`
 
-	// has daylight saving
+	// Indicates whether or not this time zone uses Daylight Saving Time
 	// Required: true
 	HasDaylightSaving *bool `json:"HasDaylightSaving"`
 
-	// offset from utc
+	// The offset from UTC in minutes (if this time zone runs behind UTC, the number is negative)
 	// Required: true
 	OffsetFromUtc *int64 `json:"OffsetFromUtc"`
 
-	// timezone Id
+	// The time zone unique identifier
 	// Required: true
 	TimezoneID *int64 `json:"TimezoneId"`
 }

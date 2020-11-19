@@ -8,13 +8,13 @@ package models
 import (
 	"encoding/json"
 
-	strfmt "github.com/go-openapi/strfmt"
-
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 )
 
 // DayOfWeek day of week
+//
 // swagger:model DayOfWeek
 type DayOfWeek string
 
@@ -56,7 +56,7 @@ func init() {
 }
 
 func (m DayOfWeek) validateDayOfWeekEnum(path, location string, value DayOfWeek) error {
-	if err := validate.Enum(path, location, value, dayOfWeekEnum); err != nil {
+	if err := validate.EnumCase(path, location, value, dayOfWeekEnum, true); err != nil {
 		return err
 	}
 	return nil

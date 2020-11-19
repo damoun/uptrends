@@ -13,10 +13,9 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	cr "github.com/go-openapi/runtime/client"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // NewVaultCreateAuthorizationForVaultSectionParams creates a new VaultCreateAuthorizationForVaultSectionParams object
@@ -64,7 +63,7 @@ for the vault create authorization for vault section operation typically these a
 type VaultCreateAuthorizationForVaultSectionParams struct {
 
 	/*Authorization*/
-	Authorization *models.Authorization
+	Authorization *models.VaultSectionAuthorization
 	/*VaultSectionGUID
 	  The Guid of the vault section for which to create the new authorization.
 
@@ -110,13 +109,13 @@ func (o *VaultCreateAuthorizationForVaultSectionParams) SetHTTPClient(client *ht
 }
 
 // WithAuthorization adds the authorization to the vault create authorization for vault section params
-func (o *VaultCreateAuthorizationForVaultSectionParams) WithAuthorization(authorization *models.Authorization) *VaultCreateAuthorizationForVaultSectionParams {
+func (o *VaultCreateAuthorizationForVaultSectionParams) WithAuthorization(authorization *models.VaultSectionAuthorization) *VaultCreateAuthorizationForVaultSectionParams {
 	o.SetAuthorization(authorization)
 	return o
 }
 
 // SetAuthorization adds the authorization to the vault create authorization for vault section params
-func (o *VaultCreateAuthorizationForVaultSectionParams) SetAuthorization(authorization *models.Authorization) {
+func (o *VaultCreateAuthorizationForVaultSectionParams) SetAuthorization(authorization *models.VaultSectionAuthorization) {
 	o.Authorization = authorization
 }
 

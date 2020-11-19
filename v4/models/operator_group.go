@@ -6,51 +6,30 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
-
-	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // OperatorGroup operator group
+//
 // swagger:model OperatorGroup
 type OperatorGroup struct {
 
-	// description
+	// The descriptive name of this operator group
 	Description string `json:"Description,omitempty"`
 
 	// is administrators group
 	IsAdministratorsGroup bool `json:"IsAdministratorsGroup,omitempty"`
 
-	// is everyone
+	// Indicates whether this is the default group for all operators
 	IsEveryone bool `json:"IsEveryone,omitempty"`
 
-	// operator group Guid
-	// Required: true
-	OperatorGroupGUID *string `json:"OperatorGroupGuid"`
+	// The unique identifier of this Operator group
+	OperatorGroupGUID string `json:"OperatorGroupGuid,omitempty"`
 }
 
 // Validate validates this operator group
 func (m *OperatorGroup) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateOperatorGroupGUID(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *OperatorGroup) validateOperatorGroupGUID(formats strfmt.Registry) error {
-
-	if err := validate.Required("OperatorGroupGuid", "body", m.OperatorGroupGUID); err != nil {
-		return err
-	}
-
 	return nil
 }
 

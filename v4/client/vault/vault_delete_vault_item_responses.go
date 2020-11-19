@@ -10,10 +10,9 @@ import (
 	"io"
 
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/damoun/uptrends/v4/models"
+	"github.com/damoun/uptrends/v4/models"
 )
 
 // VaultDeleteVaultItemReader is a Reader for the VaultDeleteVaultItem structure.
@@ -44,7 +43,7 @@ func (o *VaultDeleteVaultItemReader) ReadResponse(response runtime.ClientRespons
 		return nil, result
 
 	default:
-		return nil, runtime.NewAPIError("unknown error", response, response.Code())
+		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
 }
 
@@ -55,28 +54,16 @@ func NewVaultDeleteVaultItemNoContent() *VaultDeleteVaultItemNoContent {
 
 /*VaultDeleteVaultItemNoContent handles this case with default header values.
 
-Request completed successfully.
+The request completed successfully. No content is returned.
 */
 type VaultDeleteVaultItemNoContent struct {
-	Payload *models.VaultItem
 }
 
 func (o *VaultDeleteVaultItemNoContent) Error() string {
-	return fmt.Sprintf("[DELETE /VaultItem/{vaultItemGuid}][%d] vaultDeleteVaultItemNoContent  %+v", 204, o.Payload)
-}
-
-func (o *VaultDeleteVaultItemNoContent) GetPayload() *models.VaultItem {
-	return o.Payload
+	return fmt.Sprintf("[DELETE /VaultItem/{vaultItemGuid}][%d] vaultDeleteVaultItemNoContent ", 204)
 }
 
 func (o *VaultDeleteVaultItemNoContent) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
-
-	o.Payload = new(models.VaultItem)
-
-	// response payload
-	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
-		return err
-	}
 
 	return nil
 }
@@ -91,20 +78,20 @@ func NewVaultDeleteVaultItemBadRequest() *VaultDeleteVaultItemBadRequest {
 The request failed.
 */
 type VaultDeleteVaultItemBadRequest struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultDeleteVaultItemBadRequest) Error() string {
 	return fmt.Sprintf("[DELETE /VaultItem/{vaultItemGuid}][%d] vaultDeleteVaultItemBadRequest  %+v", 400, o.Payload)
 }
 
-func (o *VaultDeleteVaultItemBadRequest) GetPayload() *models.APIMessageInfo {
+func (o *VaultDeleteVaultItemBadRequest) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultDeleteVaultItemBadRequest) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
@@ -124,20 +111,20 @@ func NewVaultDeleteVaultItemNotFound() *VaultDeleteVaultItemNotFound {
 The requested vault item does not exist.
 */
 type VaultDeleteVaultItemNotFound struct {
-	Payload *models.APIMessageInfo
+	Payload *models.MessageList
 }
 
 func (o *VaultDeleteVaultItemNotFound) Error() string {
 	return fmt.Sprintf("[DELETE /VaultItem/{vaultItemGuid}][%d] vaultDeleteVaultItemNotFound  %+v", 404, o.Payload)
 }
 
-func (o *VaultDeleteVaultItemNotFound) GetPayload() *models.APIMessageInfo {
+func (o *VaultDeleteVaultItemNotFound) GetPayload() *models.MessageList {
 	return o.Payload
 }
 
 func (o *VaultDeleteVaultItemNotFound) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.APIMessageInfo)
+	o.Payload = new(models.MessageList)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
